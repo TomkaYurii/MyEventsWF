@@ -10,6 +10,7 @@ namespace MyEventsWF
     {
         public static Color PrimaryColor { get; set; }
         public static Color SecondaryColor { get; set; }
+        
         public static List<string> ColorList = new List<string>() { "#3F51B5",
                                                                     "#009688",
                                                                     "#FF5722",

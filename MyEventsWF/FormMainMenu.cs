@@ -1,3 +1,6 @@
+using MyEventsWF.Forms;
+using System.Runtime.InteropServices;
+
 namespace MyEventsWF
 {
     public partial class FormMainMenu : Form
@@ -7,17 +10,31 @@ namespace MyEventsWF
         private Random random;
         private int tempIndex;
         private Form activeForm;
+
         public FormMainMenu()
         {
             InitializeComponent();
-            random = new Random();        }
+            random = new Random();
+            btnCloseChildForm.Visible = false;
+            this.Text = string.Empty;
+            this.ControlBox = false;
+            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+        }
 
+        // œ€ƒ Àﬁ◊≈ÕÕﬂ ÃŒ∆À»¬Œ—“€ –”’¿“» ¬≤ ÕŒ
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+
+
+        // ==== Ã≈“Œƒ» ====
         private Color SelectThemeColor()
         {
             int index = random.Next(ThemeColor.ColorList.Count);
             while (tempIndex == index)
             {
-                random.Next(ThemeColor.ColorList.Count);
+                index = random.Next(ThemeColor.ColorList.Count);
             }
             tempIndex = index;
             string color = ThemeColor.ColorList[index];
@@ -25,7 +42,6 @@ namespace MyEventsWF
 
         }
 
-        // ==== Õ¿À¿ÿ“”¬¿ÕÕﬂ  ŒÀ‹Œ–” Ã≈Õﬁ ====
         private void ActivateButton(object btnSender)
         {
             if (btnSender != null)
@@ -38,11 +54,11 @@ namespace MyEventsWF
                     currentButton.BackColor = color;
                     currentButton.ForeColor = Color.White;
                     currentButton.Font = new System.Drawing.Font("Segoe UI", 12.4F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-                    //panelTitleBar.BackColor = color;
-                    //panelLogo.BackColor = ThemeColor.ChangeColorBrightness(color, -0.3);
-                    //ThemeColor.PrimaryColor = color;
-                    //ThemeColor.SecondaryColor = ThemeColor.ChangeColorBrightness(color, -0.3);
-                    //btnCloseChildForm.Visible = true;
+                    panelTitleBar.BackColor = color;
+                    panelLogo.BackColor = ThemeColor.ChangeColorBrightness(color, -0.3);
+                    ThemeColor.PrimaryColor = color;
+                    ThemeColor.SecondaryColor = ThemeColor.ChangeColorBrightness(color, -0.3);
+                    btnCloseChildForm.Visible = true;
                 }
             }
         }
@@ -59,47 +75,98 @@ namespace MyEventsWF
             }
         }
 
+        private void OpenChildForm(Form childForm, object btnSender)
+        {
+            if (activeForm != null)
+                activeForm.Close();
+            ActivateButton(btnSender);
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            this.panelDesktop.Controls.Add(childForm);
+            this.panelDesktop.Tag = childForm;
+            childForm.BringToFront();
+            childForm.Show();
+            lblTitleBar.Text = childForm.Text;
+        }
+
+        //Ã¿Õ≤œ”Àﬂ÷≤Ø ≤« ¬≤ ÕŒÃ
+        private void btnCloseChildForm_Click(object sender, EventArgs e)
+        {
+            if (activeForm != null)
+                activeForm.Close();
+            Reset();
+        }
+        private void Reset()
+        {
+            DisableButton();
+            lblTitleBar.Text = "HOME";
+            panelTitleBar.BackColor = Color.FromArgb(0, 150, 136);
+            panelLogo.BackColor = Color.FromArgb(39, 39, 58);
+            currentButton = null;
+            btnCloseChildForm.Visible = false;
+        }
+
+        private void panelTitleBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
+
+        private void btnTitleBarClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnTitleBarMaximize_Click(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Normal)
+                this.WindowState = FormWindowState.Maximized;
+            else
+                this.WindowState = FormWindowState.Normal;
+        }
+
+        private void btnTitleBarMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
 
         // ==== œŒƒ≤Ø ====
-        private void button1_Click(object sender, EventArgs e)
+        private void btnProfile_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);        
+            OpenChildForm(new ProfileForm(), sender);
         }
 
         private void btnAllEvents_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new AllEventsForm(), sender);
         }
 
         private void btnMyEvents_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new DetaisOfEventForm(), sender);
         }
 
         private void btnCategory_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new CategoryForm(), sender);
         }
 
         private void btnGallery_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new GalleryForm(), sender);
         }
 
         private void btnForum_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender);
+            OpenChildForm(new ForumForm(), sender);
         }
 
         private void dtnExit_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
             Application.Exit();
-        }
-
-        private void FormMainMenu_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
