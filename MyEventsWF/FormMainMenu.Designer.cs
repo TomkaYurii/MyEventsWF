@@ -170,7 +170,7 @@
             this.btnMyEvents.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.btnMyEvents.Size = new System.Drawing.Size(250, 60);
             this.btnMyEvents.TabIndex = 3;
-            this.btnMyEvents.Text = "   МОЇ ІВЕНТИ";
+            this.btnMyEvents.Text = "   ДЕТАЛІ ІВЕНТУ";
             this.btnMyEvents.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMyEvents.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnMyEvents.UseVisualStyleBackColor = true;
