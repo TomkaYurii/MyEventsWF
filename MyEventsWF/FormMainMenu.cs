@@ -1,19 +1,25 @@
+using Microsoft.Extensions.DependencyInjection;
 using MyEventsWF.Forms;
 using System.Runtime.InteropServices;
+using WinFormsApp;
 
 namespace MyEventsWF
 {
     public partial class FormMainMenu : Form
     {
+        //GH Services
+        private readonly IServiceProvider serviceProvider;
+
         //Fields
         private Button currentButton;
         private Random random;
         private int tempIndex;
         private Form activeForm;
 
-        public FormMainMenu()
+        public FormMainMenu(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            this.serviceProvider = serviceProvider;
             random = new Random();
             btnCloseChildForm.Visible = false;
             this.Text = string.Empty;
@@ -168,5 +174,12 @@ namespace MyEventsWF
             ActivateButton(sender);
             Application.Exit();
         }
+
+        private void btnProduct_Click(object sender, EventArgs e)
+        {
+            var form1 = this.serviceProvider.GetRequiredService<Form1>();
+            OpenChildForm(form1, sender);
+        }
+
     }
 }
