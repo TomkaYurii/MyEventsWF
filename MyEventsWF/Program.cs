@@ -38,8 +38,11 @@ namespace MyEventsWF
                              return conn.BeginTransaction();
                          });
                          // Dependendency Injection for Repositories/UOF from DAL
-                         services.AddScoped<IProductRepository, ProductRepository>();
+                         services.AddScoped<IEventRepository, EventRepository>();
                          services.AddScoped<ICategoryRepository, CategoryRepository>();
+                         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+                         services.AddScoped<IGalleryRepository, GalleryRepository>();
+                         services.AddScoped<IMessageRepository, MessageRepository>();
                          services.AddScoped<IUnitOfWork, UnitOfWork>();
                          //Forms
                          services.AddSingleton<FormMainMenu>();

@@ -1,0 +1,17 @@
+=========================================
+=== MS SQL DB IN AZURE ===
+=========================================
+server:
+meeventsserver.database.windows.net
+
+login:
+MyEventsAdminDb
+
+password:
+MyEventsAdminPassword2022
+
+=========================================
+=== CONNECTION STRING ===
+=========================================
+
+Server=tcp:meeventsserver.database.windows.net,1433;Initial Catalog=MyEventsDb;Persist Security Info=False;User ID=MyEventsAdminDb;Password=MyEventsAdminPassword2022;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
