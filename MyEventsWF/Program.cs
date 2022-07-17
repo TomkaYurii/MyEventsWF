@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyEventsAdoNetDB.Repositories;
 using MyEventsAdoNetDB.Repositories.Interfaces;
+using MyEventsWF.Forms;
 using System.Data;
 using System.Data.SqlClient;
-using WinFormsApp;
 
 namespace MyEventsWF
 {
@@ -43,7 +43,12 @@ namespace MyEventsWF
                          services.AddScoped<IUnitOfWork, UnitOfWork>();
                          //Forms
                          services.AddSingleton<FormMainMenu>();
-                         services.AddTransient<Form1>();
+                         services.AddTransient<AllEventsForm>();
+                         services.AddTransient<CategoryForm>();
+                         services.AddTransient<DetaisOfEventForm>();
+                         services.AddTransient<ForumForm>();
+                         services.AddTransient<GalleryForm>();
+                         services.AddTransient<ProfileForm>();
                      })
 
                      .ConfigureLogging(logging =>

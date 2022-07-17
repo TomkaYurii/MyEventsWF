@@ -15,30 +15,25 @@ namespace MyEventsWF.Forms
         public ProfileForm()
         {
             InitializeComponent();
-            LoadTheme();
+
         }
         private void LoadTheme()
         {
-            foreach (Control btns in this.Controls)
+            foreach (Button btn in this.Controls.OfType<Button>())
             {
-                if (btns.GetType() == typeof(Button))
-                {
-                    Button btn = (Button)btns;
-                    btn.BackColor = ThemeColor.PrimaryColor;
-                    btn.ForeColor = Color.White;
-                    btn.FlatAppearance.BorderColor = ThemeColor.SecondaryColor;
-                }
+                btn.BackColor = ThemeColor.PrimaryColor;
+                btn.ForeColor = Color.White;
+                btn.FlatAppearance.BorderColor = ThemeColor.SecondaryColor;
             }
-            label1.ForeColor = ThemeColor.SecondaryColor;
-            label2.ForeColor = ThemeColor.SecondaryColor;
-            label3.ForeColor = ThemeColor.SecondaryColor;
-            label4.ForeColor = ThemeColor.SecondaryColor;
-            label5.ForeColor = ThemeColor.SecondaryColor;
-            label6.ForeColor = ThemeColor.PrimaryColor;
-            label7.ForeColor = ThemeColor.PrimaryColor;
-            label8.ForeColor = ThemeColor.PrimaryColor;
-            label9.ForeColor = ThemeColor.PrimaryColor;
-            label10.ForeColor = ThemeColor.PrimaryColor;
+            foreach (Label lbl in this.Controls.OfType<Label>())
+            {
+                lbl.ForeColor = ThemeColor.PrimaryColor;
+            }
+        }
+
+        private void ProfileForm_Load(object sender, EventArgs e)
+        {
+            LoadTheme();
         }
     }
 }

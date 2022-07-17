@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using MyEventsWF.Forms;
 using System.Runtime.InteropServices;
-using WinFormsApp;
 
 namespace MyEventsWF
 {
@@ -27,7 +26,7 @@ namespace MyEventsWF
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
         }
 
-        // œ€ƒ Àﬁ◊≈ÕÕﬂ ÃŒ∆À»¬Œ—“€ –”’¿“» ¬≤ ÕŒ
+        // œ≤ƒ Àﬁ◊≈ÕÕﬂ ÃŒ∆À»¬Œ—“≤ –”’¿“» ¬≤ ÕŒ
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
@@ -59,7 +58,7 @@ namespace MyEventsWF
                     currentButton = (Button)btnSender;
                     currentButton.BackColor = color;
                     currentButton.ForeColor = Color.White;
-                    currentButton.Font = new System.Drawing.Font("Segoe UI", 12.4F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    currentButton.Font = new System.Drawing.Font("Verdana", 9.3F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                     panelTitleBar.BackColor = color;
                     panelLogo.BackColor = ThemeColor.ChangeColorBrightness(color, -0.3);
                     ThemeColor.PrimaryColor = color;
@@ -76,7 +75,7 @@ namespace MyEventsWF
                 {
                     previousBtn.BackColor = Color.FromArgb(51, 51, 99);
                     previousBtn.ForeColor = Color.Gainsboro;
-                    previousBtn.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    previousBtn.Font = new System.Drawing.Font("Vardana", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 }
             }
         }
@@ -141,45 +140,44 @@ namespace MyEventsWF
         // ==== œŒƒ≤Ø ====
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ProfileForm(), sender);
+            var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
+            OpenChildForm(profileForm, sender);
         }
 
         private void btnAllEvents_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new AllEventsForm(), sender);
+            var allEventsForm = this.serviceProvider.GetRequiredService<AllEventsForm>();
+            OpenChildForm(allEventsForm, sender);
         }
 
-        private void btnMyEvents_Click(object sender, EventArgs e)
+        private void btnDetailsOfEvent_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new DetaisOfEventForm(), sender);
+            var detaisOfEventForm = this.serviceProvider.GetRequiredService<DetaisOfEventForm>();
+            OpenChildForm(detaisOfEventForm, sender);
         }
 
         private void btnCategory_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new CategoryForm(), sender);
+            var categoryForm = this.serviceProvider.GetRequiredService<CategoryForm>();
+            OpenChildForm(categoryForm, sender);
         }
 
         private void btnGallery_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new GalleryForm(), sender);
+            var galleryForm = this.serviceProvider.GetRequiredService<GalleryForm>();
+            OpenChildForm(galleryForm, sender);
         }
 
         private void btnForum_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ForumForm(), sender);
+            var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
+            OpenChildForm(forumForm, sender);
         }
 
-        private void dtnExit_Click(object sender, EventArgs e)
+        private void btnExit_Click(object sender, EventArgs e)
         {
             ActivateButton(sender);
             Application.Exit();
         }
-
-        private void btnProduct_Click(object sender, EventArgs e)
-        {
-            var form1 = this.serviceProvider.GetRequiredService<Form1>();
-            OpenChildForm(form1, sender);
-        }
-
     }
 }
