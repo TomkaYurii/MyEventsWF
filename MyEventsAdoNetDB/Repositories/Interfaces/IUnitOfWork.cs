@@ -7,6 +7,7 @@
         ICategoryRepository _categoryRepository { get; }
         IGalleryRepository _galleryRepository { get; }
         IMessageRepository _messageRepository { get; }
+        IImageRepository _imageRepository { get; }
         void Commit();
         void Dispose();
     }

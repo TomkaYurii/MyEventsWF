@@ -11,6 +11,9 @@ namespace MyEventsAdoNetDB.Repositories
     {
         public EventRepository(SqlConnection sqlConnection, IDbTransaction dbtransaction) : base(sqlConnection, dbtransaction, "Events")
         {
+            //////////////
+            //Gallery SQL
+            //////////////
         }
 
     }
