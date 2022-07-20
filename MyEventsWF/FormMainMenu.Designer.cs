@@ -143,7 +143,7 @@
             // 
             // panelTitleBar
             // 
-            this.panelTitleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(140)))));
+            this.panelTitleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(99)))));
             this.panelTitleBar.Controls.Add(this.btnTitleBarMinimize);
             this.panelTitleBar.Controls.Add(this.btnTitleBarMaximize);
             this.panelTitleBar.Controls.Add(this.btnTitleBarClose);

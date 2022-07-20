@@ -801,12 +801,12 @@
     <value>2</value>
   </data>
   <data name="btnTitleBarMinimize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnTitleBarMinimize.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAHT
-        DgAB0w4BLx6vEAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAA9GSURBVHhe7d09
+        CQAB0wkBfVoJbwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAA9GSURBVHhe7d09
         j6Rnlcdhz0JiERmRWchLYjkcCcnY4mP4E+Av4IzEzi0jb7ASTkZkFjjCJiTk3SOx0obIoR3wIiGvtAng
         gObcqAeqj+8x8+I6dD//K7ik6buqnno6Oecn9XTXExcXF2f3hVtffLZ8q7xavlveLe+XD8tfygUABFm7
         b+3Au2XtxLUb145cu/LZ3S79vG0PH1fd/K3yQnm9/KbsvnkAYG/tzrVD1y69tdu1j2t7+KjqJm+XO+V3
@@ -912,7 +912,7 @@
     <value>0</value>
   </data>
   <data name="btnTitleBarMaximize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnTitleBarMaximize.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1101,7 +1101,7 @@
     <value>1</value>
   </data>
   <data name="btnTitleBarClose.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="btnTitleBarClose.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

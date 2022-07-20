@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -92,12 +93,23 @@
             this.label3.TabIndex = 10;
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(731, 471);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 20);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Name of Event";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // AllEventsForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(850, 500);
             this.ControlBox = false;
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox2);
@@ -123,5 +135,6 @@
         private Label label2;
         private Label label1;
         private Label label3;
+        private Label label4;
     }
 }

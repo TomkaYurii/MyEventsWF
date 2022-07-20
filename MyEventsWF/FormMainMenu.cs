@@ -6,34 +6,133 @@ namespace MyEventsWF
 {
     public partial class FormMainMenu : Form
     {
-        //GH Services
+        #region "FIELDS"
+        //GH Services Field
         private readonly IServiceProvider serviceProvider;
 
         //Fields
         private Button currentButton;
         private Random random;
-        private int tempIndex;
         private Form activeForm;
+        private int borderSize = 1;
+        private int tempIndex;
+        #endregion
 
+        #region "CONSTRUCTOR"
         public FormMainMenu(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             this.serviceProvider = serviceProvider;
+
+            // BORDERS
+            this.Padding = new Padding(borderSize);
+            this.BackColor = Color.FromArgb(0, 0, 0);
+
             random = new Random();
             btnCloseChildForm.Visible = false;
             this.Text = string.Empty;
             this.ControlBox = false;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
         }
+        #endregion
 
-        // œ≤ƒ Àﬁ◊≈ÕÕﬂ ÃŒ∆À»¬Œ—“≤ –”’¿“» ¬≤ ÕŒ
-        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
-        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        #region "BORDERLESS WINDOW MOVE/RESIZE"
+        //This gives us the ability to drag the borderless form to a new location
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
 
 
-        // ==== Ã≈“Œƒ» ====
+        //This gives us the drop shadow behind the borderless form
+        private const int CS_DROPSHADOW = 0x20000;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ClassStyle |= CS_DROPSHADOW;
+                return cp;
+            }
+        }
+
+
+        //This gives us the ability to resize the borderless from any borders instead of just the lower right corner
+        protected override void WndProc(ref Message m)
+        {
+            const int wmNcHitTest = 0x84;
+            const int htLeft = 10;
+            const int htRight = 11;
+            const int htTop = 12;
+            const int htTopLeft = 13;
+            const int htTopRight = 14;
+            const int htBottom = 15;
+            const int htBottomLeft = 16;
+            const int htBottomRight = 17;
+
+            if (m.Msg == wmNcHitTest)
+            {
+                int x = (int)(m.LParam.ToInt64() & 0xFFFF);
+                int y = (int)((m.LParam.ToInt64() & 0xFFFF0000) >> 16);
+                Point pt = PointToClient(new Point(x, y));
+                Size clientSize = ClientSize;
+                ///allow resize on the lower right corner
+                if (pt.X >= clientSize.Width - 16 && pt.Y >= clientSize.Height - 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(IsMirrored ? htBottomLeft : htBottomRight);
+                    return;
+                }
+                ///allow resize on the lower left corner
+                if (pt.X <= 16 && pt.Y >= clientSize.Height - 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(IsMirrored ? htBottomRight : htBottomLeft);
+                    return;
+                }
+                ///allow resize on the upper right corner
+                if (pt.X <= 16 && pt.Y <= 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(IsMirrored ? htTopRight : htTopLeft);
+                    return;
+                }
+                ///allow resize on the upper left corner
+                if (pt.X >= clientSize.Width - 16 && pt.Y <= 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(IsMirrored ? htTopLeft : htTopRight);
+                    return;
+                }
+                ///allow resize on the top border
+                if (pt.Y <= 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(htTop);
+                    return;
+                }
+                ///allow resize on the bottom border
+                if (pt.Y >= clientSize.Height - 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(htBottom);
+                    return;
+                }
+                ///allow resize on the left border
+                if (pt.X <= 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(htLeft);
+                    return;
+                }
+                ///allow resize on the right border
+                if (pt.X >= clientSize.Width - 16 && clientSize.Height >= 16)
+                {
+                    m.Result = (IntPtr)(htRight);
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
+        #endregion
+
+        #region "METHODS"
         private Color SelectThemeColor()
         {
             int index = random.Next(ThemeColor.ColorList.Count);
@@ -67,6 +166,7 @@ namespace MyEventsWF
                 }
             }
         }
+
         private void DisableButton()
         {
             foreach (Control previousBtn in panelMenu.Controls)
@@ -96,13 +196,6 @@ namespace MyEventsWF
             lblTitleBar.Text = childForm.Text;
         }
 
-        //Ã¿Õ≤œ”Àﬂ÷≤Ø ≤« ¬≤ ÕŒÃ
-        private void btnCloseChildForm_Click(object sender, EventArgs e)
-        {
-            if (activeForm != null)
-                activeForm.Close();
-            Reset();
-        }
         private void Reset()
         {
             DisableButton();
@@ -112,16 +205,30 @@ namespace MyEventsWF
             currentButton = null;
             btnCloseChildForm.Visible = false;
         }
+        #endregion
+
+        #region "TITLE BAR BUTTONS EVENTS"
+        // == œÓ‰≥ø ÍÌÓÔÓÍ Ì‡ ‚ÂıÌ≥È Ô‡ÌÂÎ≥ ==
+        private void btnCloseChildForm_Click(object sender, EventArgs e)
+        {
+            if (activeForm != null)
+                activeForm.Close();
+            Reset();
+        }
 
         private void panelTitleBar_MouseDown(object sender, MouseEventArgs e)
         {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
+            //ctrl-leftclick anywhere on the control to drag the form to a new location 
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
 
-        private void btnTitleBarClose_Click(object sender, EventArgs e)
+        private void btnTitleBarMinimize_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void btnTitleBarMaximize_Click(object sender, EventArgs e)
@@ -132,12 +239,14 @@ namespace MyEventsWF
                 this.WindowState = FormWindowState.Normal;
         }
 
-        private void btnTitleBarMinimize_Click(object sender, EventArgs e)
+        private void btnTitleBarClose_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
+            Application.Exit();
         }
+        #endregion
 
-        // ==== œŒƒ≤Ø ====
+        #region "MENU EVENTS"
+        // ==== œŒƒ≤Ø Ã≈Õﬁ ====
         private void btnProfile_Click(object sender, EventArgs e)
         {
             var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
@@ -179,5 +288,6 @@ namespace MyEventsWF
             ActivateButton(sender);
             Application.Exit();
         }
+        #endregion
     }
 }
