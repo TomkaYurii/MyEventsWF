@@ -50,6 +50,11 @@ namespace MyEventsWF.Forms
             LoadTheme();
         }
 
+        private void DetaisOfEventForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
         //private async void button1_Click(object sender, EventArgs e)
         //{
         //    try
