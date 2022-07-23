@@ -59,7 +59,7 @@ namespace MyEventsWF.Forms
                 label3.Text = "";
                 int id = Convert.ToInt32(textBox1.Text);
                 var mymessage = await _unitOfWork._messageRepository.GetAsync(id);
-                listBox1.Items.Add(mymessage.Message);
+                //listBox1.Items.Add(mymessage.Message);
             }
             catch (Exception ex)
             {
@@ -70,12 +70,25 @@ namespace MyEventsWF.Forms
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text != null && textBox2.Text == null)
+            if (textBox1.Text != "" && textBox2.Text == "")
             {
                 try
                 {
-                    var mymessage = await _unitOfWork._messageRepository.AllMessagesByEventName(textBox1.Text);
-                    listBox1.Items.Add(mymessage.Message);
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    listBox1.Items.Clear();
+                    var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventName(textBox1.Text);
+                    var forumPostslist = forumPosts.ToList();
+                    foreach (var forumPost in forumPostslist)
+                    {
+                        listBox1.Items.Add(forumPost.Message);
+                    }
+                    if (listBox1.Items.Count == 0)
+                    {
+                        label3.Show();
+                        label3.Text = "Коментарів не знайдено!";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -83,12 +96,25 @@ namespace MyEventsWF.Forms
                     label3.Text = ex.Message;
                 }
             }
-            if (textBox1.Text == null && textBox2.Text != null)
+            if (textBox1.Text == "" && textBox2.Text != "")
             {
                 try
                 {
-                    var mymessage = await _unitOfWork._messageRepository.AllMessagesByEventId(Convert.ToInt32(textBox2.Text));
-                    listBox1.Items.Add(mymessage.Message);
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    listBox1.Items.Clear();
+                    var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventId(Convert.ToInt32(textBox2.Text));
+                    var forumPostslist = forumPosts.ToList();
+                    foreach (var forumPost in forumPostslist)
+                    {
+                        listBox1.Items.Add(forumPost.Message);
+                    }
+                    if (listBox1.Items.Count == 0)
+                    {
+                        label3.Show();
+                        label3.Text = "Коментарів не знайдено!";
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -96,28 +122,38 @@ namespace MyEventsWF.Forms
                     label3.Text = ex.Message;
                 }
             }
-            if (textBox1.Text != null && textBox2.Text != null)
+            if (textBox1.Text != "" && textBox2.Text != "")
             {
                 try
                 {
-                    var mymessage = await _unitOfWork._messageRepository.AllMessagesByEventIdAndName(Convert.ToInt32(textBox2.Text), textBox1.Text);
-                    listBox1.Items.Add(mymessage.Message);
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    listBox1.Items.Clear();
+                    var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventIdAndName(Convert.ToInt32(textBox2.Text), textBox1.Text);
+                    var forumPostslist = forumPosts.ToList();
+                    foreach (var forumPost in forumPostslist)
+                    {
+                        listBox1.Items.Add(forumPost.Message);
+                    }
+                    if (listBox1.Items.Count == 0)
+                    {
+                        label3.Show();
+                        label3.Text = "Коментарів не знайдено!";
+                    }
                 }
                 catch (Exception ex)
                 {
                     label3.Show();
                     label3.Text = ex.Message;
                 }
-            }
-            if (textBox1.Text == null && textBox2.Text == null)
-            {
-                MessageBox.Show("Ви нічого не ввели!");
             }
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Функція ще допрацьовується!");
+            label3.BackColor = Color.Red;
+            label3.Text = "Функція ще не доступна!";
         }
     }
 }

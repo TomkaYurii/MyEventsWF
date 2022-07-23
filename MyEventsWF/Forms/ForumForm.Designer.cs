@@ -56,7 +56,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(579, 12);
+            this.textBox2.Location = new System.Drawing.Point(563, 12);
             this.textBox2.Name = "textBox2";
             this.textBox2.PlaceholderText = "Знайти івент за ID";
             this.textBox2.Size = new System.Drawing.Size(147, 23);
@@ -64,11 +64,12 @@
             // 
             // listBox1
             // 
+            this.listBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(29, 73);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(793, 349);
+            this.listBox1.Size = new System.Drawing.Size(793, 334);
             this.listBox1.TabIndex = 13;
             // 
             // textBox3
@@ -91,9 +92,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(747, 11);
+            this.button2.Location = new System.Drawing.Point(723, 11);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(99, 23);
             this.button2.TabIndex = 16;
             this.button2.Text = "Знайти";
             this.button2.UseVisualStyleBackColor = true;

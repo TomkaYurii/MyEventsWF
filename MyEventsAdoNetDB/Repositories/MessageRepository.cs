@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Dapper_Example.DAL;
 using MyEventsAdoNetDB.Entities;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using System.Data;

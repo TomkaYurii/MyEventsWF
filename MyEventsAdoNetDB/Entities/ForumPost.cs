@@ -1,6 +1,4 @@
-﻿using MyEventsAdoNetDB.Entities;
-
-namespace Dapper_Example.DAL
+﻿namespace MyEventsAdoNetDB.Entities
 {
     public class ForumPost : BaseEntity
     {
