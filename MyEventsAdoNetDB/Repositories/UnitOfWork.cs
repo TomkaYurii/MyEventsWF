@@ -10,7 +10,7 @@ namespace MyEventsAdoNetDB.Repositories
         public IUserProfileRepository _userProfileRepository { get; }
         public IGalleryRepository _galleryRepository { get; }
         public IMessageRepository _messageRepository { get; }
-
+        public IImageRepository _imageRepository { get; }    
         readonly IDbTransaction _dbTransaction;
 
         public UnitOfWork(
@@ -19,6 +19,7 @@ namespace MyEventsAdoNetDB.Repositories
             ICategoryRepository categoryRepository, 
             IGalleryRepository galleryRepository,
             IMessageRepository messageRepository,
+            IImageRepository imageRepository,
             IDbTransaction dbTransaction)
         {
             _userProfileRepository = userProfileRepository;
@@ -26,6 +27,7 @@ namespace MyEventsAdoNetDB.Repositories
             _categoryRepository = categoryRepository;
             _galleryRepository = galleryRepository;
             _messageRepository = messageRepository;
+            _imageRepository = imageRepository;
             _dbTransaction = dbTransaction;
         }
 

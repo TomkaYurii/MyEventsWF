@@ -43,6 +43,7 @@ namespace MyEventsWF
                          services.AddScoped<IUserProfileRepository, UserProfileRepository>();
                          services.AddScoped<IGalleryRepository, GalleryRepository>();
                          services.AddScoped<IMessageRepository, MessageRepository>();
+                         services.AddScoped<IImageRepository, ImageRepository>();
                          services.AddScoped<IUnitOfWork, UnitOfWork>();
                          //Forms
                          services.AddSingleton<FormMainMenu>();

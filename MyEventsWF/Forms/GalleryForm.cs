@@ -45,9 +45,28 @@ namespace MyEventsWF.Forms
             }
         }
         // EVENTS
-        private void GalleryForm_Load(object sender, EventArgs e)
+        private async void GalleryForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
+            try
+            {
+                var id_of_gallery = Convert.ToInt32(textBox3.Text);
+                var galleryinfo = await _unitOfWork._galleryRepository.GetAsync(id_of_gallery);
+                textBox4.Text = galleryinfo.Name;
+
+                // 1 Gallery - n Image
+                // SELECT * IMAGE WHERE GALLERY_ID = 33
+
+                var images = await _unitOfWork._imageRepository.GetAllImagesByGalleryIdAsync(galleryinfo.Id);
+                var images_list = images.ToList();
+                textBox5.Text = images_list[0].Name;
+            }
+            catch(Exception ex)
+            {
+                label3.Show();
+                label3.Text = ex.Message;
+            }
+
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -66,6 +85,11 @@ namespace MyEventsWF.Forms
                 label3.Show();
                 label3.Text = ex.Message;
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
