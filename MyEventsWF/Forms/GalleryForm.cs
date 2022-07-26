@@ -1,4 +1,6 @@
-﻿using MyEventsAdoNetDB.Repositories.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MyEventsAdoNetDB.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +15,14 @@ namespace MyEventsWF.Forms
 {
     public partial class GalleryForm : Form
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceProvider serviceProvider;
+        private readonly ILogger<GalleryForm> logger;
 
-        public GalleryForm(IUnitOfWork uow)
+        public GalleryForm(IServiceProvider serviceProvider, ILogger<GalleryForm> logger)
         {
             InitializeComponent();
-            _unitOfWork = uow;
+            this.serviceProvider = serviceProvider;
+            this.logger = logger;
         }
 
         // ============================
@@ -48,48 +52,59 @@ namespace MyEventsWF.Forms
         private async void GalleryForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
-            try
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: інформації про галерею із введеним Id");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
-                var id_of_gallery = Convert.ToInt32(textBox3.Text);
-                var galleryinfo = await _unitOfWork._galleryRepository.GetAsync(id_of_gallery);
-                textBox4.Text = galleryinfo.Name;
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+                try
+                {
+                    this.logger.LogInformation(DateTime.UtcNow + "=>" + "1.1. Запит до БД: запит до таблиці Galeries");
+                    var id_of_gallery = Convert.ToInt32(textBox3.Text);
+                    var galleryinfo = await _unitOfWork._galleryRepository.GetAsync(id_of_gallery);
+                    textBox4.Text = galleryinfo.Name;
 
-                // 1 Gallery - n Image
-                // SELECT * IMAGE WHERE GALLERY_ID = 33
+                    // 1 Gallery - n Image
+                    // SELECT * FROM IMAGE WHERE GALLERY_ID = 5
+                    this.logger.LogInformation(DateTime.UtcNow + "=>" + "1.2. Запит до БД: запит до таблиці Images");
+                    var images = await _unitOfWork._imageRepository.GetAllImagesByGalleryIdAsync(galleryinfo.Id);
+                    var images_list = images.ToList();
+                    textBox5.Text = images_list[0].Name;
 
-                var images = await _unitOfWork._imageRepository.GetAllImagesByGalleryIdAsync(galleryinfo.Id);
-                var images_list = images.ToList();
-                textBox5.Text = images_list[0].Name;
-            }
-            catch(Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
+                    _unitOfWork.Commit();  
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
             }
 
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            try
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання галереї по Id");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
-                label3.BackColor = Color.Red;
-                label3.Hide();
-                label3.Text = "";
-                int id = Convert.ToInt32(textBox1.Text);
-                var mygallery = await _unitOfWork._galleryRepository.GetAsync(id);
-                textBox2.Text = mygallery.Name;
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    int id = Convert.ToInt32(textBox1.Text);
+                    var mygallery = await _unitOfWork._galleryRepository.GetAsync(id);
+                    textBox2.Text = mygallery.Name;
+                    _unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
             }
-            catch (Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
-            }
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

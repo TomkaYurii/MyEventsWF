@@ -1,24 +1,19 @@
-﻿using MyEventsAdoNetDB.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MyEventsAdoNetDB.Repositories.Interfaces;
 
 namespace MyEventsWF.Forms
 {
     public partial class AllEventsForm : Form
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceProvider serviceProvider;
+        private readonly ILogger<AllEventsForm> logger;
 
-        public AllEventsForm(IUnitOfWork uow)
+        public AllEventsForm(IServiceProvider serviceProvider, ILogger<AllEventsForm> logger)
         {
             InitializeComponent();
-            _unitOfWork = uow;
+            this.serviceProvider = serviceProvider;
+            this.logger = logger;
         }
 
         // ============================
@@ -52,19 +47,26 @@ namespace MyEventsWF.Forms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            try
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання івенту по Id");  
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
-                label3.BackColor = Color.Red;
-                label3.Hide();
-                label3.Text = "";
-                int id = Convert.ToInt32(textBox1.Text);
-                var myevent = await _unitOfWork._eventRepository.GetAsync(id);
-                textBox2.Text = myevent.Name;
-            }
-            catch (Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    int id = Convert.ToInt32(textBox1.Text);
+                    var myevent = await _unitOfWork._eventRepository.GetAsync(id);
+                    textBox2.Text = myevent.Name;
+                    _unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
             }
         }
     }

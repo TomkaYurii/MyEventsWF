@@ -107,7 +107,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(192, 20);
             this.textBox3.TabIndex = 12;
-            this.textBox3.Text = "33";
+            this.textBox3.Text = "5";
             // 
             // label4
             // 
@@ -118,7 +118,6 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Id of Gallery";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // textBox4
             // 

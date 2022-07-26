@@ -19,52 +19,53 @@ namespace MyEventsWF
         {
             //ÑÒÂÎÐÅÍÍß GENERIC HOST
             var host = Host.CreateDefaultBuilder()
-                     .ConfigureAppConfiguration((hostContext, config) =>
+                     .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder) =>
                      {
                          //Configuration
-                         hostContext.HostingEnvironment.EnvironmentName = System.Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
-                         var env = hostContext.HostingEnvironment;
-                         config.AddEnvironmentVariables();
-                         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                         config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
+                         hostBuilderContext.HostingEnvironment.EnvironmentName = System.Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+                         var env = hostBuilderContext.HostingEnvironment;
+                         configurationBuilder.AddEnvironmentVariables();
+                         configurationBuilder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                         configurationBuilder.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
                      })
-                     .ConfigureServices((hostContext, services) =>
+                     .ConfigureServices((hostBuilderContext, serviceCollection) =>
                      {
                          // Connection/Transaction for database
-                         services.AddScoped((s) => new SqlConnection(hostContext.Configuration.GetConnectionString("MSSQLConnection")));
-                         services.AddScoped<IDbTransaction>(s =>
+                         serviceCollection.AddScoped((s) => new SqlConnection(hostBuilderContext.Configuration.GetConnectionString("MSSQLConnection")));
+                         serviceCollection.AddScoped<IDbTransaction>(s =>
                          {
                              SqlConnection conn = s.GetRequiredService<SqlConnection>();
                              conn.Open();
                              return conn.BeginTransaction();
                          });
                          // Dependendency Injection for Repositories/UOF from ADO.NET/EF DAL
-                         services.AddScoped<IEventRepository, EventRepository>();
-                         services.AddScoped<ICategoryRepository, CategoryRepository>();
-                         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-                         services.AddScoped<IGalleryRepository, GalleryRepository>();
-                         services.AddScoped<IMessageRepository, MessageRepository>();
-                         services.AddScoped<IImageRepository, ImageRepository>();
-                         services.AddScoped<IUnitOfWork, UnitOfWork>();
+                         serviceCollection.AddScoped<IEventRepository, EventRepository>();
+                         serviceCollection.AddScoped<ICategoryRepository, CategoryRepository>();
+                         serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
+                         serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
+                         serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
+                         serviceCollection.AddScoped<IImageRepository, ImageRepository>();
+                         serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
                          //Forms
-                         services.AddScoped<FormMainMenu>();
-                         services.AddScoped<AllEventsForm>();
-                         services.AddScoped<CategoryForm>();
-                         services.AddScoped<DetaisOfEventForm>();
-                         services.AddScoped<ForumForm>();
-                         services.AddScoped<GalleryForm>();
-                         services.AddScoped<ProfileForm>();
+                         serviceCollection.AddSingleton<FormMainMenu>();
+                         serviceCollection.AddTransient<AllEventsForm>();
+                         serviceCollection.AddTransient<CategoryForm>();
+                         serviceCollection.AddTransient<DetaisOfEventForm>();
+                         serviceCollection.AddTransient<ForumForm>();
+                         serviceCollection.AddTransient<GalleryForm>();
+                         serviceCollection.AddTransient<ProfileForm>();
                      })
 
-                     .ConfigureLogging(logging =>
+                     .ConfigureLogging((hostBuilderContext, loggingBuilder) =>
                      {
-                         // Add other loggers...
                      })
                      .Build();
 
-            using IServiceScope serviceScope = host.Services.CreateScope();
-            IServiceProvider provider = serviceScope.ServiceProvider;
-            var FormMainMenuSVC = provider.GetRequiredService<FormMainMenu>();
+            //using IServiceScope serviceScope = host.Services.CreateScope();
+            //IServiceProvider provider = serviceScope.ServiceProvider;
+            //var FormMainMenuSVC = provider.GetRequiredService<FormMainMenu>();
+
+            var FormMainMenuSVC = host.Services.GetRequiredService<FormMainMenu>();
 
             Application.Run(FormMainMenuSVC);
         }

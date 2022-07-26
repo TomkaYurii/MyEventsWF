@@ -1,4 +1,6 @@
-﻿using MyEventsAdoNetDB.Repositories.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MyEventsAdoNetDB.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +15,14 @@ namespace MyEventsWF.Forms
 {
     public partial class CategoryForm : Form
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceProvider serviceProvider;
+        private readonly ILogger<CategoryForm> logger;
 
-        public CategoryForm(IUnitOfWork uow)
+        public CategoryForm(IServiceProvider serviceProvider, ILogger<CategoryForm> logger)
         {
             InitializeComponent();
-            _unitOfWork = uow;
+            this.serviceProvider = serviceProvider;
+            this.logger = logger;
         }
 
         // ============================
@@ -52,21 +56,27 @@ namespace MyEventsWF.Forms
 
         private async void button1_ClickAsync(object sender, EventArgs e)
         {
-            try
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання категорії по Id");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
-                label3.BackColor = Color.Red;
-                label3.Hide();
-                label3.Text = "";
-                int id = Convert.ToInt32(textBox1.Text);
-                var product = await _unitOfWork._categoryRepository.GetAsync(id);
-                textBox2.Text = product.Name;
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    int id = Convert.ToInt32(textBox1.Text);
+                    var product = await _unitOfWork._categoryRepository.GetAsync(id);
+                    textBox2.Text = product.Name;
+                    _unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
             }
-            catch (Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
-            }
-
         }
     }
 }

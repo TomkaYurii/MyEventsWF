@@ -1,4 +1,6 @@
-﻿using MyEventsAdoNetDB.Repositories.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using MyEventsAdoNetDB.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +15,14 @@ namespace MyEventsWF.Forms
 {
     public partial class DetaisOfEventForm : Form
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceProvider serviceProvider;
+        private readonly ILogger<DetaisOfEventForm> logger;
 
-        public DetaisOfEventForm(IUnitOfWork uow)
+        public DetaisOfEventForm(IServiceProvider serviceProvider, ILogger<DetaisOfEventForm> logger)
         {
             InitializeComponent();
-            _unitOfWork = uow;
+            this.serviceProvider = serviceProvider;
+            this.logger = logger;
         }
 
         // ============================
@@ -52,19 +56,26 @@ namespace MyEventsWF.Forms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            try
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання деталей про івент по Id");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
-                label3.BackColor = Color.Red;
-                label3.Hide();
-                label3.Text = "";
-                int id = Convert.ToInt32(textBox1.Text);
-                var myevent = await _unitOfWork._eventRepository.GetAsync(id);
-                textBox2.Text = myevent.Name;
-            }
-            catch (Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IUnitOfWork>();
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    int id = Convert.ToInt32(textBox1.Text);
+                    var myevent = await _unitOfWork._eventRepository.GetAsync(id);
+                    textBox2.Text = myevent.Name;
+                    _unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
             }
         }
     }

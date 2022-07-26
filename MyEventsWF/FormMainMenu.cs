@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MyEventsWF.Forms;
 using System.Runtime.InteropServices;
 
@@ -9,6 +10,7 @@ namespace MyEventsWF
         #region "FIELDS"
         //GH Services Field
         private readonly IServiceProvider serviceProvider;
+        private readonly ILogger logger;
 
         //Fields
         private Button currentButton;
@@ -19,10 +21,12 @@ namespace MyEventsWF
         #endregion
 
         #region "CONSTRUCTOR"
-        public FormMainMenu(IServiceProvider serviceProvider)
+        public FormMainMenu(IServiceProvider serviceProvider,
+            ILogger<FormMainMenu> logger)
         {
             InitializeComponent();
             this.serviceProvider = serviceProvider;
+            this.logger = logger;
 
             // BORDERS
             this.Padding = new Padding(borderSize);
@@ -249,42 +253,49 @@ namespace MyEventsWF
         // ==== ПОДІЇ МЕНЮ ====
         private void btnProfile_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Завантаження форми перегляду профайлу користувача " + DateTime.UtcNow);
             var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
             OpenChildForm(profileForm, sender);
         }
 
         private void btnAllEvents_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Форма перегляду всіх івентів завантажена " + DateTime.UtcNow);
             var allEventsForm = this.serviceProvider.GetRequiredService<AllEventsForm>();
             OpenChildForm(allEventsForm, sender);
         }
 
         private void btnDetailsOfEvent_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Форма перегляду деталей івенту завантажена " + DateTime.UtcNow);
             var detaisOfEventForm = this.serviceProvider.GetRequiredService<DetaisOfEventForm>();
             OpenChildForm(detaisOfEventForm, sender);
         }
 
         private void btnCategory_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Форма перегляду категорій завантажена " + DateTime.UtcNow);
             var categoryForm = this.serviceProvider.GetRequiredService<CategoryForm>();
             OpenChildForm(categoryForm, sender);
         }
 
         private void btnGallery_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Форма перегляду галерей завантажена " + DateTime.UtcNow);
             var galleryForm = this.serviceProvider.GetRequiredService<GalleryForm>();
             OpenChildForm(galleryForm, sender);
         }
 
         private void btnForum_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Форма перегляду форуму завантажена " + DateTime.UtcNow);
             var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
             OpenChildForm(forumForm, sender);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            this.logger.LogInformation("Закриваю головне вікно");
             ActivateButton(sender);
             Application.Exit();
         }
