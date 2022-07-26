@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "MyEvents [DEVELOPMENT]": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "MyEvents [PRODUCTION]": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NETCORE_ENVIRONMENT": "Production"
+      }
+    }
+  }
+}

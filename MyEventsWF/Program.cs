@@ -19,10 +19,11 @@ namespace MyEventsWF
         {
             //ÑÒÂÎÐÅÍÍß GENERIC HOST
             var host = Host.CreateDefaultBuilder()
-                     .ConfigureAppConfiguration((hostingContext, config) =>
+                     .ConfigureAppConfiguration((hostContext, config) =>
                      {
                          //Configuration
-                         var env = hostingContext.HostingEnvironment;
+                         hostContext.HostingEnvironment.EnvironmentName = System.Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+                         var env = hostContext.HostingEnvironment;
                          config.AddEnvironmentVariables();
                          config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                          config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
@@ -37,7 +38,7 @@ namespace MyEventsWF
                              conn.Open();
                              return conn.BeginTransaction();
                          });
-                         // Dependendency Injection for Repositories/UOF from DAL
+                         // Dependendency Injection for Repositories/UOF from ADO.NET/EF DAL
                          services.AddScoped<IEventRepository, EventRepository>();
                          services.AddScoped<ICategoryRepository, CategoryRepository>();
                          services.AddScoped<IUserProfileRepository, UserProfileRepository>();
@@ -46,13 +47,13 @@ namespace MyEventsWF
                          services.AddScoped<IImageRepository, ImageRepository>();
                          services.AddScoped<IUnitOfWork, UnitOfWork>();
                          //Forms
-                         services.AddSingleton<FormMainMenu>();
-                         services.AddTransient<AllEventsForm>();
-                         services.AddTransient<CategoryForm>();
-                         services.AddTransient<DetaisOfEventForm>();
-                         services.AddTransient<ForumForm>();
-                         services.AddTransient<GalleryForm>();
-                         services.AddTransient<ProfileForm>();
+                         services.AddScoped<FormMainMenu>();
+                         services.AddScoped<AllEventsForm>();
+                         services.AddScoped<CategoryForm>();
+                         services.AddScoped<DetaisOfEventForm>();
+                         services.AddScoped<ForumForm>();
+                         services.AddScoped<GalleryForm>();
+                         services.AddScoped<ProfileForm>();
                      })
 
                      .ConfigureLogging(logging =>
@@ -61,11 +62,9 @@ namespace MyEventsWF
                      })
                      .Build();
 
-            //using IServiceScope serviceScope = host.Services.CreateScope();
-            //IServiceProvider provider = serviceScope.ServiceProvider;
-            //var FormMainMenuSVC = provider.GetRequiredService<FormMainMenu>();
-            var services = host.Services;
-            var FormMainMenuSVC = services.GetRequiredService<FormMainMenu>();
+            using IServiceScope serviceScope = host.Services.CreateScope();
+            IServiceProvider provider = serviceScope.ServiceProvider;
+            var FormMainMenuSVC = provider.GetRequiredService<FormMainMenu>();
 
             Application.Run(FormMainMenuSVC);
         }
