@@ -15,4 +15,11 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task<IEnumerable<Event>> GetTop10EventsAsync()
+    {
+        return await Task.Run(() => databaseContext.Events
+            .OrderByDescending(X => X.DateOfEvent)
+            .Take(10));
+    }
 }

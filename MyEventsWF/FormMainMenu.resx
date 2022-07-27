@@ -783,7 +783,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="panelMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 700</value>
+    <value>250, 800</value>
   </data>
   <data name="panelMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -885,7 +885,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarMinimize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>962, 9</value>
+    <value>1162, 9</value>
   </data>
   <data name="btnTitleBarMinimize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1074,7 +1074,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarMaximize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>992, 9</value>
+    <value>1192, 9</value>
   </data>
   <data name="btnTitleBarMaximize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1246,7 +1246,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1021, 9</value>
+    <value>1221, 9</value>
   </data>
   <data name="btnTitleBarClose.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1348,7 +1348,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="panelTitleBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1050, 60</value>
+    <value>1250, 60</value>
   </data>
   <data name="panelTitleBar.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1375,7 +1375,7 @@
     <value>10, 10</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1300, 700</value>
+    <value>1500, 800</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 10.2pt</value>
@@ -1384,7 +1384,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1300, 700</value>
+    <value>1500, 800</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
