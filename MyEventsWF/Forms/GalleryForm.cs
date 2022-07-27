@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyEventsAdoNetDB.Repositories.Interfaces;
+using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,7 +85,7 @@ namespace MyEventsWF.Forms
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання галереї по Id");
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД через ADO.NET: отримання галереї по Id");
             using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
             {
                 IServiceProvider provider = serviceScope.ServiceProvider;
@@ -98,6 +99,30 @@ namespace MyEventsWF.Forms
                     var mygallery = await _unitOfWork._galleryRepository.GetAsync(id);
                     textBox2.Text = mygallery.Name;
                     _unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
+            }
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД через EF: отримання галереї по Id");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
+            {
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _EFunitOfWork = provider.GetRequiredService<IEFUnitOfWork>();
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    int id = Convert.ToInt32(textBox8.Text);
+                    var mygallery = await _EFunitOfWork.EFGalleryRepository.GetByIdAsync(id);
+                    textBox7.Text = mygallery.Name;
                 }
                 catch (Exception ex)
                 {

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyEventsAdoNetDB\MyEventsAdoNetDB.csproj" />
+    <ProjectReference Include="..\MyEventsEntityFrameworkDb\MyEventsEntityFrameworkDb.csproj" />
   </ItemGroup>
 
   <ItemGroup>
