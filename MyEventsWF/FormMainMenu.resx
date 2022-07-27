@@ -783,7 +783,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="panelMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>250, 560</value>
+    <value>250, 700</value>
   </data>
   <data name="panelMenu.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -798,7 +798,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelMenu.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="btnTitleBarMinimize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -885,7 +885,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarMinimize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>762, 9</value>
+    <value>962, 9</value>
   </data>
   <data name="btnTitleBarMinimize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1074,7 +1074,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarMaximize.Location" type="System.Drawing.Point, System.Drawing">
-    <value>792, 9</value>
+    <value>992, 9</value>
   </data>
   <data name="btnTitleBarMaximize.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1246,7 +1246,7 @@
     <value>Gadugi, 13.8pt</value>
   </data>
   <data name="btnTitleBarClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>821, 9</value>
+    <value>1021, 9</value>
   </data>
   <data name="btnTitleBarClose.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -1348,7 +1348,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="panelTitleBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>850, 60</value>
+    <value>1050, 60</value>
   </data>
   <data name="panelTitleBar.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1363,39 +1363,6 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panelTitleBar.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panelDesktop.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="panelDesktop.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Tahoma, 12pt</value>
-  </data>
-  <data name="panelDesktop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 60</value>
-  </data>
-  <data name="panelDesktop.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 3, 4, 3</value>
-  </data>
-  <data name="panelDesktop.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="panelDesktop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>850, 500</value>
-  </data>
-  <data name="panelDesktop.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;panelDesktop.Name" xml:space="preserve">
-    <value>panelDesktop</value>
-  </data>
-  <data name="&gt;&gt;panelDesktop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelDesktop.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panelDesktop.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1404,14 +1371,11 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>11, 20</value>
   </data>
-  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="$this.AutoScrollMargin" type="System.Drawing.Size, System.Drawing">
     <value>10, 10</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>1100, 560</value>
+    <value>1300, 700</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Verdana, 10.2pt</value>
@@ -1420,7 +1384,7 @@
     <value>4, 3, 4, 3</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>1100, 560</value>
+    <value>1300, 700</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

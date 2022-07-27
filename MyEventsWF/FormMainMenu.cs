@@ -193,8 +193,8 @@ namespace MyEventsWF
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
-            this.panelDesktop.Controls.Add(childForm);
-            this.panelDesktop.Tag = childForm;
+            //this.panelDesktop.Controls.Add(childForm);
+            //this.panelDesktop.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
             lblTitleBar.Text = childForm.Text;
@@ -255,6 +255,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Завантаження форми перегляду профайлу користувача " + DateTime.UtcNow);
             var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
+            profileForm.MdiParent = this;
             OpenChildForm(profileForm, sender);
         }
 
@@ -262,6 +263,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Форма перегляду всіх івентів завантажена " + DateTime.UtcNow);
             var allEventsForm = this.serviceProvider.GetRequiredService<AllEventsForm>();
+            allEventsForm.MdiParent = this;
             OpenChildForm(allEventsForm, sender);
         }
 
@@ -269,6 +271,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Форма перегляду деталей івенту завантажена " + DateTime.UtcNow);
             var detaisOfEventForm = this.serviceProvider.GetRequiredService<DetaisOfEventForm>();
+            detaisOfEventForm.MdiParent = this;
             OpenChildForm(detaisOfEventForm, sender);
         }
 
@@ -276,6 +279,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Форма перегляду категорій завантажена " + DateTime.UtcNow);
             var categoryForm = this.serviceProvider.GetRequiredService<CategoryForm>();
+            categoryForm.MdiParent = this;
             OpenChildForm(categoryForm, sender);
         }
 
@@ -283,6 +287,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Форма перегляду галерей завантажена " + DateTime.UtcNow);
             var galleryForm = this.serviceProvider.GetRequiredService<GalleryForm>();
+            galleryForm.MdiParent = this;
             OpenChildForm(galleryForm, sender);
         }
 
@@ -290,6 +295,7 @@ namespace MyEventsWF
         {
             this.logger.LogInformation("Форма перегляду форуму завантажена " + DateTime.UtcNow);
             var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
+            forumForm.MdiParent = this;
             OpenChildForm(forumForm, sender);
         }
 

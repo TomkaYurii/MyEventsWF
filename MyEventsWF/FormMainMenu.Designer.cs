@@ -45,7 +45,6 @@
             this.btnTitleBarClose = new System.Windows.Forms.Button();
             this.btnCloseChildForm = new System.Windows.Forms.Button();
             this.lblTitleBar = new System.Windows.Forms.Label();
-            this.panelDesktop = new System.Windows.Forms.Panel();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             this.panelTitleBar.SuspendLayout();
@@ -195,23 +194,16 @@
             this.lblTitleBar.ForeColor = System.Drawing.Color.White;
             this.lblTitleBar.Name = "lblTitleBar";
             // 
-            // panelDesktop
-            // 
-            this.panelDesktop.BackColor = System.Drawing.SystemColors.Control;
-            resources.ApplyResources(this.panelDesktop, "panelDesktop");
-            this.panelDesktop.ForeColor = System.Drawing.SystemColors.Control;
-            this.panelDesktop.Name = "panelDesktop";
-            // 
             // FormMainMenu
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ControlBox = false;
-            this.Controls.Add(this.panelDesktop);
             this.Controls.Add(this.panelTitleBar);
             this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.IsMdiContainer = true;
             this.Name = "FormMainMenu";
             this.Opacity = 0.99D;
             this.panelMenu.ResumeLayout(false);
@@ -237,7 +229,6 @@
         private Panel panelTitleBar;
         private Label lblTitleBar;
         private Label lblLogo;
-        private Panel panelDesktop;
         private Button btnCloseChildForm;
         private Button btnTitleBarMinimize;
         private Button btnTitleBarMaximize;
