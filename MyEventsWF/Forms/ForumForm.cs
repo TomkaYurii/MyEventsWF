@@ -152,6 +152,7 @@ namespace MyEventsWF.Forms
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            label3.Show();
             label3.BackColor = Color.Red;
             label3.Text = "Функція ще не доступна!";
         }

@@ -6,7 +6,6 @@ using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsWF.Forms;
 using System.Data;
 using System.Data.SqlClient;
-using MyEventsEntityFrameworkDb.Context;
 
 namespace MyEventsWF
 {

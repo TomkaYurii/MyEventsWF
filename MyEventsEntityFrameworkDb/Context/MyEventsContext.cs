@@ -10,19 +10,23 @@ namespace MyEventsEntityFrameworkDb.Context
 {
     internal class MyEventsContext : DbContext
     {
-        public DbSet<Categories> Categories { get; set; }
-        public DbSet<CategoriesEvents> CategoriesEvents { get; set; }
-        public DbSet<Cities> Cities { get; set; }
-        public DbSet<Countries> Countries { get; set; }
-        public DbSet<Events> Events { get; set; }
-        public DbSet<Galleries> Galleries { get; set; }
-        public DbSet<Images> Images { get; set; }
-        public DbSet<Messages> Messages { get; set; }
-        public DbSet<Roles> Roles { get; set; }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoriesEvent> CategoriesEvents { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
         public MyEventsContext()
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
+        }
+        public MyEventsContext(DbContextOptions<MyEventsContext> options) : base(options)
+        {
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
