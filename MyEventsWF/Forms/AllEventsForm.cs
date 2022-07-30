@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities;
+using MyEventsWF.Helpers;
 
 namespace MyEventsWF.Forms
 {
@@ -100,6 +101,7 @@ namespace MyEventsWF.Forms
             btnDetails.TabIndex = 5;
             btnDetails.Text = "Details";
             btnDetails.UseVisualStyleBackColor = false;
+            btnDetails.Click += new System.EventHandler(OpenDetailOfEvent);
             // btnDiscuss
             var btnDiscuss = new Button();
             btnDiscuss.BackColor = System.Drawing.Color.LightGray;
@@ -112,7 +114,10 @@ namespace MyEventsWF.Forms
             btnDiscuss.TabIndex = 4;
             btnDiscuss.Text = "Discuss";
             btnDiscuss.UseVisualStyleBackColor = false;
-            btnDiscuss.Click += new System.EventHandler(OpenDetailsAboutEvent);
+            btnDiscuss.Click += new System.EventHandler(OpenDiscussToEvent);
+
+
+            panel.Text = list[index].Id.ToString();
 
             panel.Controls.Add(lblName);
             panel.Controls.Add(pctBImage);
@@ -124,16 +129,27 @@ namespace MyEventsWF.Forms
         }
 
         //public event EventHandler ButtonDiscussClicked;
-        private void OpenDetailsAboutEvent(object sender, EventArgs e)
+        private void OpenDiscussToEvent(object sender, EventArgs e)
         {
-            var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
-            //forumForm.EventId = 10;
-            forumForm.ShowDialog();
+            var args = this.serviceProvider.GetRequiredService<ServiceArgs>();
+            Button btn = sender as Button;
+            args.Id= Convert.ToInt32(btn.Parent.Text);
+            var mainFormMenu = this.serviceProvider.GetRequiredService<FormMainMenu>();
+            var forumButton = mainFormMenu.Controls.Find("btnForum",true).FirstOrDefault() as Button;
+            forumButton.PerformClick();
+        }
+        private void OpenDetailOfEvent(object sender, EventArgs e)
+        {
+            var args = this.serviceProvider.GetRequiredService<ServiceArgs>();
+            Button btn = sender as Button;
+            args.Id = Convert.ToInt32(btn.Parent.Text);
+            var mainFormMenu = this.serviceProvider.GetRequiredService<FormMainMenu>();
+            var detailsOfEventbtn = mainFormMenu.Controls.Find("btnDetailsOfEvent", true).FirstOrDefault() as Button;
+            detailsOfEventbtn.PerformClick();
         }
         #endregion
 
-
-        #region "EF to Database"
+        #region "EF TO DATABASE"
         public async Task GetEventsForStartScreenAsync()
         {
             this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: отримання найближчих 10 подій");
@@ -154,11 +170,11 @@ namespace MyEventsWF.Forms
         }
         #endregion
 
-        #region "Events of Form"
+        #region "EVENTS OF FORMS"
         // EVENTS
         private async void AllEventsForm_Load(object sender, EventArgs e)
         {
-            LoadTheme();
+            //LoadTheme();
             await GetEventsForStartScreenAsync();
             int k = 0;
             for (int i = 0; i < tlpEvents.ColumnCount; i++)

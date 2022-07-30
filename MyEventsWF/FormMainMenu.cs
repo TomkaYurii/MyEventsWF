@@ -147,7 +147,6 @@ namespace MyEventsWF
             tempIndex = index;
             string color = ThemeColor.ColorList[index];
             return ColorTranslator.FromHtml(color);
-
         }
 
         private void ActivateButton(object btnSender)
@@ -193,8 +192,6 @@ namespace MyEventsWF
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
-            //this.panelDesktop.Controls.Add(childForm);
-            //this.panelDesktop.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
             lblTitleBar.Text = childForm.Text;
