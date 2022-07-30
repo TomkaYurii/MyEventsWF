@@ -8,6 +8,7 @@ using MyEventsEntityFrameworkDb.DbContexts;
 using MyEventsEntityFrameworkDb.EFRepositories;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsWF.Forms;
+using MyEventsWF.Helpers;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -66,6 +67,7 @@ namespace MyEventsWF
                          serviceCollection.AddScoped<IEFUnitOfWork, EFUnitOfWork>();
                          //Forms
                          serviceCollection.AddSingleton<FormMainMenu>();
+                         serviceCollection.AddSingleton<ServiceArgs>();
                          serviceCollection.AddTransient<AllEventsForm>();
                          serviceCollection.AddTransient<CategoryForm>();
                          serviceCollection.AddTransient<DetaisOfEventForm>();

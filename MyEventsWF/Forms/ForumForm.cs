@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MyEventsAdoNetDB.Repositories.Interfaces;
+using MyEventsWF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,12 +18,16 @@ namespace MyEventsWF.Forms
     {
         private readonly IServiceProvider serviceProvider;
         private readonly ILogger<ForumForm> logger;
+        private readonly ServiceArgs args;
 
-        public ForumForm(IServiceProvider serviceProvider, ILogger<ForumForm> logger)
+        public ForumForm(IServiceProvider serviceProvider, 
+            ILogger<ForumForm> logger,
+            ServiceArgs args)
         {
             InitializeComponent();
             this.serviceProvider = serviceProvider;
             this.logger = logger;
+            this.args = args;
         }
 
         // ============================
@@ -52,7 +57,17 @@ namespace MyEventsWF.Forms
         private void ForumForm_Load(object sender, EventArgs e)
         {
             LoadTheme();
+            ForumForm_Configuring();
         }
+
+
+        //конфігурування вікна при завантаженні
+        private void ForumForm_Configuring()
+        {
+            textBox1.Text = this.args.Id.ToString();
+        }
+
+
 
         private async void button1_Click(object sender, EventArgs e)
         {
