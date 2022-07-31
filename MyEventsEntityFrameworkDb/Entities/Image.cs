@@ -9,6 +9,7 @@ namespace MyEventsEntityFrameworkDb.Entities
         public string Name { get; set; } = null!;
         public int? GalleryId { get; set; }
         public int? UserId { get; set; }
+        public byte[]? ImageBytes { get; set; }
 
         public virtual Gallery? Gallery { get; set; }
         public virtual User? User { get; set; }

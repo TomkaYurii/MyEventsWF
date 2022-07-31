@@ -206,6 +206,7 @@
             this.IsMdiContainer = true;
             this.Name = "FormMainMenu";
             this.Opacity = 0.99D;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panelMenu.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
             this.panelLogo.PerformLayout();
