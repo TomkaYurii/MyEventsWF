@@ -27,10 +27,10 @@ namespace MyEventsEntityFrameworkDb.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //if (!optionsBuilder.IsConfigured)
-            //{
-            //    optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MyEventsDb;Trusted_Connection=True;");
-            //}
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MyEventsDb;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -123,6 +123,7 @@ namespace MyEventsEntityFrameworkDb.DbContexts
                     .HasColumnName("name");
 
                 entity.Property(e => e.TimeOfEvent).HasColumnName("time_of_event");
+                entity.Property(p => p.ImageBytes).HasColumnType("image");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 

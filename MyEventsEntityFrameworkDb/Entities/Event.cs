@@ -22,6 +22,7 @@ namespace MyEventsEntityFrameworkDb.Entities
         public string? Address { get; set; }
         public int? AcceptableAge { get; set; }
         public double? CostOfVisit { get; set; }
+        public byte[]? ImageBytes { get; set; }
 
         public virtual City? City { get; set; }
         public virtual Country? Country { get; set; }
