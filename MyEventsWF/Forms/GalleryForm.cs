@@ -27,32 +27,59 @@ namespace MyEventsWF.Forms
         }
 
         #region "COLOR THEME"
-        // ============================
-        // Налаштування кольорової теми
-        // ============================
+        //Get all controls on a form
+        public IEnumerable<Control> GetAll(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAll(ctrl, type))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type);
+        }
+        // Update Styles of Controls
         private void LoadTheme()
         {
-            foreach (Button btn in this.Controls.OfType<Button>())
+            foreach (Button btn in GetAll(this, typeof(Button)))
             {
-                btn.Font = new System.Drawing.Font("Verdana", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                btn.Font = new System.Drawing.Font("Verdana", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 btn.BackColor = ThemeColor.PrimaryColor;
                 btn.ForeColor = Color.White;
                 btn.FlatAppearance.BorderColor = ThemeColor.SecondaryColor;
             }
-            foreach (Label lbl in this.Controls.OfType<Label>())
+            foreach (Label lbl in GetAll(this, typeof(Label)))
             {
-                lbl.Font = new System.Drawing.Font("Verdana", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                lbl.Font = new System.Drawing.Font("Verdana", 12.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 lbl.ForeColor = ThemeColor.PrimaryColor;
             }
-            foreach (TextBox txtb in this.Controls.OfType<TextBox>())
+            foreach (TextBox txtb in GetAll(this, typeof(TextBox)))
             {
-                txtb.Font = new System.Drawing.Font("Verdana", 8.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                txtb.Font = new System.Drawing.Font("Verdana", 120.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
                 txtb.ForeColor = ThemeColor.PrimaryColor;
             }
         }
         #endregion
 
         #region "DYNAMICALLY CONTROLS CREATION"
+        //Get Full Information about Event/Gallery/Images
+        private async Task GetEventInformationAsync(int event_Id)
+        {
+            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит інформації про івент");
+            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
+            {
+                IServiceProvider provider = serviceScope.ServiceProvider;
+                var _unitOfWork = provider.GetRequiredService<IEFUnitOfWork>();
+                try
+                {
+                    this.my_event = await _unitOfWork.EFEventRepository.GetCompleteEntityAsync(event_Id);
+                }
+                catch (Exception ex)
+                {
+                    this.logger.LogError(DateTime.UtcNow + "=>" + "Запит до БД... Щось пішло не так: " + ex.Message);
+                    MessageBox.Show(ex.Message, "ПОМИЛКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        //Build TableLayoutPanel
         private TableLayoutPanel tableLayoutPanelBuild()
         {
             var tlp = new TableLayoutPanel();
@@ -88,6 +115,7 @@ namespace MyEventsWF.Forms
             tlp.Margin = new System.Windows.Forms.Padding(1);
             return tlp;
         }
+        //Mouse Hover on Image
         private void OnDeleteImg(object sender, EventArgs e)
         {
             PictureBox box = (PictureBox)sender;
@@ -103,6 +131,7 @@ namespace MyEventsWF.Forms
             delButton.Dock = DockStyle.Bottom;
             box.Controls.Add(delButton);
         }
+        //Mose Move Out from Image
         private void NotDeleteImg(object sender, EventArgs e)
         {
             PictureBox box = (PictureBox)sender;
@@ -115,7 +144,7 @@ namespace MyEventsWF.Forms
             box.SizeMode = PictureBoxSizeMode.Zoom;
 
         }
-
+        //Mouse click for dellete image from DB
         private async void DeleteImageFromGallery(object sender, EventArgs e)
         {
             PictureBox box = (PictureBox)sender;
@@ -126,21 +155,20 @@ namespace MyEventsWF.Forms
                 var _unitOfWork = provider.GetRequiredService<IEFUnitOfWork>();
                 try
                 {
-                    await _unitOfWork.EFImageRepository.DeleteAsync(Convert.ToInt32(box.Name));
+                    await _unitOfWork.EFImageRepository.DeleteByIdAsync(Convert.ToInt32(box.Name));
                     await _unitOfWork.SaveChangesAsync();
                     MessageBox.Show("DELETED!", "DONE!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: шось пішло не так: " + ex.Message);
+                    this.logger.LogError(DateTime.UtcNow + "=>" + "Запит до БД... Щось пішло не так: " + ex.Message);
                     MessageBox.Show(ex.Message, "ПОМИЛКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             TableLayoutPanel tblp =  (TableLayoutPanel)box.Parent;
             tblp.Controls.Remove((PictureBox)sender);
-
         }
-
+        //Convert array of Bytes to Bitmap for TableLayout Cell with PictureBox
         public Bitmap ByteToImage(byte[] blob)
         {
             MemoryStream mStream = new MemoryStream();
@@ -152,31 +180,7 @@ namespace MyEventsWF.Forms
         }
         #endregion
 
-        #region "WORK WITH DB"
-        /// <summary>
-        /// получение информации про ивент для которого мы просматриваем изображения с гелерии
-        /// </summary>
-        /// <param name="event_Id"></param>
-        /// <returns></returns>
-        private async Task GetEventInformationAsync(int event_Id)
-        {
-            this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит інформації про івент");
-            using (IServiceScope serviceScope = this.serviceProvider.CreateScope())
-            {
-                IServiceProvider provider = serviceScope.ServiceProvider;
-                var _unitOfWork = provider.GetRequiredService<IEFUnitOfWork>();
-                try
-                {
-                    this.my_event = await _unitOfWork.EFEventRepository.GetCompleteEntityAsync(event_Id);
-                }
-                catch (Exception ex)
-                {
-                    this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: шось пішло не так: " + ex.Message);
-                    MessageBox.Show(ex.Message, "ПОМИЛКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
+        #region "WORK WITH IMAGE. SAVE IT RO DB"
         /// <summary>
         /// В этом методе создается и выполняется параметризированный запрос insert, который заносит уменьшенную копию 
         /// выбранной картинки в БД уменьшенная копия создается в методе CreateCopy()
@@ -202,7 +206,7 @@ namespace MyEventsWF.Forms
                 }
                 catch (Exception ex)
                 {
-                    this.logger.LogInformation(DateTime.UtcNow + "=>" + "Запит до БД: шось пішло не так: " + ex.Message);
+                    this.logger.LogError(DateTime.UtcNow + "=>" + "Запит до БД... Щось пішло не так: " + ex.Message);
                     MessageBox.Show(ex.Message, "ПОМИЛКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -238,16 +242,17 @@ namespace MyEventsWF.Forms
         }
         #endregion
 
+
         #region "EVENTS OF FORM"
         // EVENTS
         private async void GalleryForm_Load(object sender, EventArgs e)
         {
-
             await GetEventInformationAsync(args.Id);
-            LoadTheme();
             this.Controls.Add(tableLayoutPanelBuild());
             this.lblNameOfEvent.Text = this.my_event.Name;
             this.lblNameOfGallery.Text = this.my_event.Gallery.Name;
+
+            LoadTheme();
         }
         private async void btnImageLoad_Click(object sender, EventArgs e)
         {

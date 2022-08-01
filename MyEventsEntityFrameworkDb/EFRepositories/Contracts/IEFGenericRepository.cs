@@ -12,5 +12,7 @@ public interface IEFGenericRepository<TEntity> where TEntity : class
 
     Task UpdateAsync(TEntity entity);
 
-    Task DeleteAsync(int id);
+    Task DeleteByIdAsync(int id);
+
+    Task DeleteAsync(TEntity entity);
 }
