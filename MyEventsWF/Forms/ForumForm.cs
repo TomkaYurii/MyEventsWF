@@ -152,9 +152,32 @@ namespace MyEventsWF.Forms
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            label3.Show();
-            label3.BackColor = Color.Red;
-            label3.Text = "Функція ще не доступна!";
+            int userid = 5;
+            if (textBox2.Text != "" && textBox3.Text != "")
+            {
+                try
+                {
+                    label3.BackColor = Color.Red;
+                    label3.Hide();
+                    label3.Text = "";
+                    _unitOfWork._messageRepository.CreateMessage(userid, Convert.ToInt32(textBox2.Text), textBox3.Text);
+                }
+                catch (Exception ex)
+                {
+                    label3.Show();
+                    label3.Text = ex.Message;
+                }
+            }
+            else if (textBox2.Text == "")
+            {
+                label3.Show();
+                label3.Text = "Введіть Id івенту!";
+            }
+            else
+            {
+                label3.Show();
+                label3.Text = "Введіть коментар!";
+            }
         }
     }
 }

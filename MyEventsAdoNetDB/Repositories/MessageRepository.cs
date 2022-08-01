@@ -28,5 +28,10 @@ namespace MyEventsAdoNetDB.Repositories
             string sql = @"SELECT Messages.id, Events.user_id, event_id, message FROM Events INNER JOIN Messages ON Events.id = Messages.event_id WHERE Events.name = N'@EventName' AND event_id = @EventId";
             return await _sqlConnection.QueryAsync<ForumPost>(sql, param: new { EventId = id, EventName = name }, transaction: _dbTransaction);
         }
+        public async Task CreateMessage(int UserId, int EventId, string Message)
+        {
+            string sql = @"INSERT INTO Messages (user_id, event_id, message) VALUES (@userId, @eventId, @message)";
+            await _sqlConnection.ExecuteAsync(sql, param: new { userId = UserId, eventId = EventId, message = Message }, transaction: _dbTransaction); _dbTransaction.Commit();
+        }
     }
 }
