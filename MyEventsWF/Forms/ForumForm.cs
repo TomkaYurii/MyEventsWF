@@ -49,28 +49,9 @@ namespace MyEventsWF.Forms
         {
             LoadTheme();
         }
-
-        private async void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                label3.BackColor = Color.Red;
-                label3.Hide();
-                label3.Text = "";
-                int id = Convert.ToInt32(textBox1.Text);
-                var mymessage = await _unitOfWork._messageRepository.GetAsync(id);
-                //listBox1.Items.Add(mymessage.Message);
-            }
-            catch (Exception ex)
-            {
-                label3.Show();
-                label3.Text = ex.Message;
-            }
-        }
         int eventid = 0;
         string eventname = "";
-
-        private async void button2_Click(object sender, EventArgs e)
+        private async void SearchMessages_Click(object sender, EventArgs e)
         {
             if (textBox1.Text != "" && textBox2.Text == "")
             {
@@ -158,7 +139,7 @@ namespace MyEventsWF.Forms
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private async void SendMessage_Click(object sender, EventArgs e)
         {
             int userid = 5;
             try
@@ -167,10 +148,7 @@ namespace MyEventsWF.Forms
                 label3.Hide();
                 label3.Text = "";
                 _unitOfWork._messageRepository.CreateMessage(userid, eventid, textBox3.Text);
-                if (eventid == Convert.ToInt32(textBox2.Text) || textBox1.Text == eventname)
-                {
-                    listBox1.Items.Add(textBox3.Text);
-                }
+                listBox1.Items.Add(textBox3.Text);
             }
             catch (Exception ex)
             {

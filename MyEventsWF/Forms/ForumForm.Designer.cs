@@ -33,8 +33,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.SearchMessages = new System.Windows.Forms.Button();
+            this.SendMessage = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label3
@@ -80,33 +80,33 @@
             this.textBox3.Size = new System.Drawing.Size(681, 23);
             this.textBox3.TabIndex = 14;
             // 
-            // button1
+            // SearchMessages
             // 
-            this.button1.Location = new System.Drawing.Point(723, 445);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 23);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Відправити";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.SearchMessages.Location = new System.Drawing.Point(723, 11);
+            this.SearchMessages.Name = "SearchMessages";
+            this.SearchMessages.Size = new System.Drawing.Size(99, 23);
+            this.SearchMessages.TabIndex = 15;
+            this.SearchMessages.Text = "Знайти";
+            this.SearchMessages.UseVisualStyleBackColor = true;
+            this.SearchMessages.Click += new System.EventHandler(this.SearchMessages_Click);
             // 
-            // button2
+            // SendMessage
             // 
-            this.button2.Location = new System.Drawing.Point(723, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 23);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "Знайти";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.SendMessage.Location = new System.Drawing.Point(723, 444);
+            this.SendMessage.Name = "SendMessage";
+            this.SendMessage.Size = new System.Drawing.Size(99, 23);
+            this.SendMessage.TabIndex = 16;
+            this.SendMessage.Text = "Відправити";
+            this.SendMessage.UseVisualStyleBackColor = true;
+            this.SendMessage.Click += new System.EventHandler(this.SendMessage_Click);
             // 
             // ForumForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(850, 500);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SendMessage);
+            this.Controls.Add(this.SearchMessages);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.textBox2);
@@ -128,7 +128,7 @@
         private TextBox textBox2;
         private ListBox listBox1;
         private TextBox textBox3;
-        private Button button1;
-        private Button button2;
+        private Button SearchMessages;
+        private Button SendMessage;
     }
 }
