@@ -14,10 +14,9 @@ namespace MyEventsAdoNetDB.Repositories
 
         public async Task<IEnumerable<ForumPost>> AllMessagesByEventName(string name)
         {
-            string sql = @"SELECT Messages.id, Events.user_id, event_id, message FROM Events INNER JOIN Messages ON Events.id = Messages.event_id WHERE Events.name = N'@EventName'";
+            string sql = @"SELECT Messages.id, Events.user_id, event_id, message FROM Events INNER JOIN Messages ON Events.id = Messages.event_id WHERE Events.name = @EventName";
             return await _sqlConnection.QueryAsync<ForumPost>(sql, param: new { EventName = name }, transaction: _dbTransaction);
         }
-
         public async Task<IEnumerable<ForumPost>> AllMessagesByEventId(int id)
         {
             string sql = @"SELECT * FROM Messages WHERE event_id = @EventId";
@@ -25,7 +24,7 @@ namespace MyEventsAdoNetDB.Repositories
         }
         public async Task<IEnumerable<ForumPost>> AllMessagesByEventIdAndName(int id, string name)
         {
-            string sql = @"SELECT Messages.id, Events.user_id, event_id, message FROM Events INNER JOIN Messages ON Events.id = Messages.event_id WHERE Events.name = N'@EventName' AND event_id = @EventId";
+            string sql = @"SELECT Messages.id, Events.user_id, event_id, message FROM Events INNER JOIN Messages ON Events.id = Messages.event_id WHERE Events.name = @EventName AND event_id = @EventId";
             return await _sqlConnection.QueryAsync<ForumPost>(sql, param: new { EventId = id, EventName = name }, transaction: _dbTransaction);
         }
         public async Task CreateMessage(int UserId, int EventId, string Message)

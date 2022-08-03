@@ -67,6 +67,8 @@ namespace MyEventsWF.Forms
                 label3.Text = ex.Message;
             }
         }
+        int eventid = 0;
+        string eventname = "";
 
         private async void button2_Click(object sender, EventArgs e)
         {
@@ -80,6 +82,8 @@ namespace MyEventsWF.Forms
                     listBox1.Items.Clear();
                     var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventName(textBox1.Text);
                     var forumPostslist = forumPosts.ToList();
+                    eventid = forumPostslist[0].Event_Id;
+                    eventname = textBox1.Text;
                     foreach (var forumPost in forumPostslist)
                     {
                         listBox1.Items.Add(forumPost.Message);
@@ -106,6 +110,8 @@ namespace MyEventsWF.Forms
                     listBox1.Items.Clear();
                     var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventId(Convert.ToInt32(textBox2.Text));
                     var forumPostslist = forumPosts.ToList();
+                    eventid = Convert.ToInt32(textBox2.Text);
+                    eventname = textBox1.Text;
                     foreach (var forumPost in forumPostslist)
                     {
                         listBox1.Items.Add(forumPost.Message);
@@ -132,6 +138,8 @@ namespace MyEventsWF.Forms
                     listBox1.Items.Clear();
                     var forumPosts = await _unitOfWork._messageRepository.AllMessagesByEventIdAndName(Convert.ToInt32(textBox2.Text), textBox1.Text);
                     var forumPostslist = forumPosts.ToList();
+                    eventid = Convert.ToInt32(textBox2.Text);
+                    eventname = textBox1.Text;
                     foreach (var forumPost in forumPostslist)
                     {
                         listBox1.Items.Add(forumPost.Message);
@@ -153,30 +161,21 @@ namespace MyEventsWF.Forms
         private void button1_Click_1(object sender, EventArgs e)
         {
             int userid = 5;
-            if (textBox2.Text != "" && textBox3.Text != "")
+            try
             {
-                try
+                label3.BackColor = Color.Red;
+                label3.Hide();
+                label3.Text = "";
+                _unitOfWork._messageRepository.CreateMessage(userid, eventid, textBox3.Text);
+                if (eventid == Convert.ToInt32(textBox2.Text) || textBox1.Text == eventname)
                 {
-                    label3.BackColor = Color.Red;
-                    label3.Hide();
-                    label3.Text = "";
-                    _unitOfWork._messageRepository.CreateMessage(userid, Convert.ToInt32(textBox2.Text), textBox3.Text);
-                }
-                catch (Exception ex)
-                {
-                    label3.Show();
-                    label3.Text = ex.Message;
+                    listBox1.Items.Add(textBox3.Text);
                 }
             }
-            else if (textBox2.Text == "")
+            catch (Exception ex)
             {
                 label3.Show();
-                label3.Text = "Введіть Id івенту!";
-            }
-            else
-            {
-                label3.Show();
-                label3.Text = "Введіть коментар!";
+                label3.Text = ex.Message;
             }
         }
     }
