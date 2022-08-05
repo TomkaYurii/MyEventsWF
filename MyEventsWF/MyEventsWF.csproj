@@ -76,4 +76,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MODELS\" />
+  </ItemGroup>
+
 </Project>

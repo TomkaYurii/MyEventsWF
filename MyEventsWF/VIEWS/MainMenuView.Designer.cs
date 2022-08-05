@@ -1,6 +1,6 @@
 ﻿namespace MyEventsWF
 {
-    partial class FormMainMenu
+    partial class MainMenuView
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainMenu));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuView));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnForum = new System.Windows.Forms.Button();
@@ -89,7 +89,7 @@
             this.btnGallery.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnGallery.Name = "btnGallery";
             this.btnGallery.UseVisualStyleBackColor = true;
-            this.btnGallery.Click += new System.EventHandler(this.btnGallery_Click);
+            //this.btnGallery.Click += new System.EventHandler(this.btnGallery_Click);
             // 
             // btnCategory
             // 

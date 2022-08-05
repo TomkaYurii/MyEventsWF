@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVP.Views;
 using MyEventsAdoNetDB.Repositories;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.DbContexts;
@@ -9,6 +10,7 @@ using MyEventsEntityFrameworkDb.EFRepositories;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsWF.Forms;
 using MyEventsWF.Helpers;
+using MyEventsWF.PRESENTERS;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -65,23 +67,32 @@ namespace MyEventsWF
                          serviceCollection.AddScoped<IEFMessageRepository, EFMessageRepository>();
                          serviceCollection.AddScoped<IEFImageRepository, EFImageRepository>();
                          serviceCollection.AddScoped<IEFUnitOfWork, EFUnitOfWork>();
-                         //Forms
-                         serviceCollection.AddSingleton<FormMainMenu>();
+                         // Service for argument pass between forms
                          serviceCollection.AddSingleton<ServiceArgs>();
-                         serviceCollection.AddTransient<AllEventsForm>();
-                         serviceCollection.AddTransient<CategoryForm>();
-                         serviceCollection.AddTransient<DetaisOfEventForm>();
-                         serviceCollection.AddTransient<ForumForm>();
-                         serviceCollection.AddTransient<GalleryForm>();
-                         serviceCollection.AddTransient<ProfileForm>();
+                         //Forms
+                         //serviceCollection.AddTransient<AllEventsForm>();
+                         //serviceCollection.AddTransient<CategoryForm>();
+                         //serviceCollection.AddTransient<DetaisOfEventForm>();
+                         //serviceCollection.AddTransient<ForumForm>();
+                         //serviceCollection.AddTransient<GalleryForm>();
+                         //serviceCollection.AddTransient<ProfileForm>();
+
+
+                         //MVP
+                         serviceCollection.AddSingleton<MainMenuPresenter>();
+                         serviceCollection.AddSingleton<IMainMenuView, MainMenuView>();
                      })
                      .ConfigureLogging((hostBuilderContext, loggingBuilder) =>
                      {
                      })
                      .Build();
 
-            var FormMainMenuSVC = host.Services.GetRequiredService<FormMainMenu>();
-            Application.Run(FormMainMenuSVC);
+            //var FormMainMenuSVC = host.Services.GetRequiredService<MainMenuView>();
+            //Application.Run(FormMainMenuSVC);
+
+            IMainMenuView MainMenuSVC = host.Services.GetRequiredService<IMainMenuView>();
+            host.Services.GetRequiredService<MainMenuPresenter>();
+            Application.Run((Form)MainMenuSVC);
         }
     }
 }

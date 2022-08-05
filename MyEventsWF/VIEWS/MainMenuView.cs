@@ -1,16 +1,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MVP.Views;
 using MyEventsWF.Forms;
 using System.Runtime.InteropServices;
 
 namespace MyEventsWF
 {
-    public partial class FormMainMenu : Form
+    public partial class MainMenuView : Form, IMainMenuView
     {
         #region "FIELDS"
         //GH Services Field
-        private readonly IServiceProvider serviceProvider;
-        private readonly ILogger logger;
+        //private readonly IServiceProvider serviceProvider;
+        //private readonly ILogger logger;
 
         //Fields
         private Button currentButton;
@@ -21,12 +22,13 @@ namespace MyEventsWF
         #endregion
 
         #region "CONSTRUCTOR"
-        public FormMainMenu(IServiceProvider serviceProvider,
-            ILogger<FormMainMenu> logger)
+        public MainMenuView()
+            //IServiceProvider serviceProvider,
+            //ILogger<MainMenuView> logger)
         {
             InitializeComponent();
-            this.serviceProvider = serviceProvider;
-            this.logger = logger;
+            //this.serviceProvider = serviceProvider;
+            //this.logger = logger;
 
             // BORDERS
             this.Padding = new Padding(borderSize);
@@ -37,6 +39,9 @@ namespace MyEventsWF
             this.Text = string.Empty;
             this.ControlBox = false;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+
+            //MVP GALLERY CLICK
+            btnGallery.Click += delegate { ShowGalleryView?.Invoke(this, EventArgs.Empty); };
         }
         #endregion
 
@@ -250,58 +255,67 @@ namespace MyEventsWF
         #endregion
 
         #region "MENU EVENTS"
+        //MVP EVENTS
+        public event EventHandler ShowProfileView;
+        public event EventHandler ShowAllEventsView;
+        public event EventHandler ShowDetailsOfEventView;
+        public event EventHandler ShowCategoryView;
+        public event EventHandler ShowGalleryView;
+        public event EventHandler ShowForumView;
+
+
         // ==== ПОДІЇ МЕНЮ ====
         private void btnProfile_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Завантаження форми перегляду профайлу користувача " + DateTime.UtcNow);
-            var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
-            profileForm.MdiParent = this;
-            OpenChildForm(profileForm, sender);
+            //this.logger.LogInformation("Завантаження форми перегляду профайлу користувача " + DateTime.UtcNow);
+            //var profileForm = this.serviceProvider.GetRequiredService<ProfileForm>();
+            //profileForm.MdiParent = this;
+            //OpenChildForm(profileForm, sender);
         }
 
         private void btnAllEvents_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Форма перегляду всіх івентів завантажена " + DateTime.UtcNow);
-            var allEventsForm = this.serviceProvider.GetRequiredService<AllEventsForm>();
-            allEventsForm.MdiParent = this;
-            OpenChildForm(allEventsForm, sender);
+            //this.logger.LogInformation("Форма перегляду всіх івентів завантажена " + DateTime.UtcNow);
+            //var allEventsForm = this.serviceProvider.GetRequiredService<AllEventsForm>();
+            //allEventsForm.MdiParent = this;
+            //OpenChildForm(allEventsForm, sender);
         }
 
         private void btnDetailsOfEvent_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Форма перегляду деталей івенту завантажена " + DateTime.UtcNow);
-            var detaisOfEventForm = this.serviceProvider.GetRequiredService<DetaisOfEventForm>();
-            detaisOfEventForm.MdiParent = this;
-            OpenChildForm(detaisOfEventForm, sender);
+            //this.logger.LogInformation("Форма перегляду деталей івенту завантажена " + DateTime.UtcNow);
+            //var detaisOfEventForm = this.serviceProvider.GetRequiredService<DetaisOfEventForm>();
+            //detaisOfEventForm.MdiParent = this;
+            //OpenChildForm(detaisOfEventForm, sender);
         }
 
         private void btnCategory_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Форма перегляду категорій завантажена " + DateTime.UtcNow);
-            var categoryForm = this.serviceProvider.GetRequiredService<CategoryForm>();
-            categoryForm.MdiParent = this;
-            OpenChildForm(categoryForm, sender);
+            //this.logger.LogInformation("Форма перегляду категорій завантажена " + DateTime.UtcNow);
+            //var categoryForm = this.serviceProvider.GetRequiredService<CategoryForm>();
+            //categoryForm.MdiParent = this;
+            //OpenChildForm(categoryForm, sender);
         }
 
-        private void btnGallery_Click(object sender, EventArgs e)
-        {
-            this.logger.LogInformation("Форма перегляду галерей завантажена " + DateTime.UtcNow);
-            var galleryForm = this.serviceProvider.GetRequiredService<GalleryForm>();
-            galleryForm.MdiParent = this;
-            OpenChildForm(galleryForm, sender);
-        }
+        //private void btnGallery_Click(object sender, EventArgs e)
+        //{
+        //    this.logger.LogInformation("Форма перегляду галерей завантажена " + DateTime.UtcNow);
+        //    var galleryForm = this.serviceProvider.GetRequiredService<GalleryForm>();
+        //    galleryForm.MdiParent = this;
+        //    OpenChildForm(galleryForm, sender);
+        //}
 
         private void btnForum_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Форма перегляду форуму завантажена " + DateTime.UtcNow);
-            var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
-            forumForm.MdiParent = this;
-            OpenChildForm(forumForm, sender);
+            //this.logger.LogInformation("Форма перегляду форуму завантажена " + DateTime.UtcNow);
+            //var forumForm = this.serviceProvider.GetRequiredService<ForumForm>();
+            //forumForm.MdiParent = this;
+            //OpenChildForm(forumForm, sender);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            this.logger.LogInformation("Закриваю головне вікно");
+            //this.logger.LogInformation("Закриваю головне вікно");
             ActivateButton(sender);
             Application.Exit();
         }
