@@ -20,6 +20,11 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
                                  .Include(ev => ev.Gallery)
                                  .Include(ev => ev.Country)
                                  .Include(ev => ev.City)
+                                 .Include(ev => ev.Address)
+                                 .Include(ev => ev.DateOfEvent)
+                                 .Include(ev => ev.TimeOfEvent)
+                                 .Include(ev => ev.AcceptableAge)
+                                 .Include(ev => ev.CostOfVisit)
                                  .Include(ev => ev.CategoriesEvents)
                                     .ThenInclude(ce => ce.Category)
                                  .SingleOrDefaultAsync(ev => ev.Id == id);

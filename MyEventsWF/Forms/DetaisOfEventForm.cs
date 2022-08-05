@@ -87,7 +87,27 @@ namespace MyEventsWF.Forms
 
             this.label1.Text = my_event.Name;
 
-            this.label2.Text = my_event.City.Name;
+            try
+            {
+                this.label10.Text = my_event.City.Name;
+            }
+            catch(Exception ex) { }
+
+            try
+            {
+                this.label16.Text = my_event.Country.Name;
+            }
+            catch(Exception ex) { }
+
+            this.label11.Text = my_event.Address;
+
+            this.label12.Text = Convert.ToString(my_event.DateOfEvent);
+
+            this.label13.Text = Convert.ToString(my_event.TimeOfEvent);
+
+            this.label14.Text = Convert.ToString(my_event.AcceptableAge);
+
+            this.label15.Text = Convert.ToString(my_event.CostOfVisit);
         }
 
 
@@ -101,6 +121,39 @@ namespace MyEventsWF.Forms
             //textBox1.Text = this.args.Id.ToString();
         }
 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DetaisOfEventForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
