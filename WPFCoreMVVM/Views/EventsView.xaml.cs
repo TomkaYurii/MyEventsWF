@@ -16,9 +16,9 @@ namespace WPFCoreMVVM.Views
     /// <summary>
     /// Логика взаимодействия для BuersView.xaml
     /// </summary>
-    public partial class BuyersView : UserControl
+    public partial class EventsView : UserControl
     {
-        public BuyersView()
+        public EventsView()
         {
             InitializeComponent();
         }

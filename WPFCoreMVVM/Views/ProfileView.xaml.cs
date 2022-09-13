@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,19 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace WPFCoreMVVM.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для ProfileView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ProfileView : UserControl
     {
-        public MainWindow()
+        public ProfileView()
         {
             InitializeComponent();
         }
-        private IEFCategoryRepository x;
-
-        public IEFCategoryRepository X { get => x; set => x = value; }
     }
 }

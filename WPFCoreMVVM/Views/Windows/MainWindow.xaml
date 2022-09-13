@@ -7,6 +7,9 @@
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         Title="{Binding Title}"
         Width="800" Height="450">
+   
+    
+    
     <DockPanel>
         <Menu DockPanel.Dock="Top" IsMainMenu="True">
             <Menu.ItemsPanel>
@@ -18,6 +21,7 @@
                 <MenuItem Header="Выход" Command="{StaticResource CloseWindowCommand}"/>
             </MenuItem>
             <MenuItem Header="Events" Command="{Binding ShowEventsViewCommand}"/>
+            <MenuItem Header="UserProfile" Command="{Binding ShowProfileViewCommand}"/>
 
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">

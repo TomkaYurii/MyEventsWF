@@ -9,7 +9,11 @@
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type vm:EventsViewModel}">
-        <view:BuyersView DataContext="{Binding}"/>
+        <view:EventsView DataContext="{Binding}"/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+        <view:ProfileView DataContext="{Binding}"/>
     </DataTemplate>
 
 

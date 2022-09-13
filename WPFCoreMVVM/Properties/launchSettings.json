@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "MyEventsWPF [DEVELOPMENT]": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "MyEventsWPF [PRODUCTION]": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "NETCORE_ENVIRONMENT": "Production"
+      }
+    }
+  }
+}

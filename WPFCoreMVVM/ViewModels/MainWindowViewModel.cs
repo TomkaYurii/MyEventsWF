@@ -4,6 +4,10 @@ using System.Windows.Input;
 using WPFCoreMVVM.Infrastructure.Commands;
 using WPFCoreMVVM.Services.Interfaces;
 using WPFCoreMVVM.ViewModels.Base;
+using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using MyEventsAdoNetDB.Repositories.Interfaces;
 
 namespace WPFCoreMVVM.ViewModels
 {
@@ -11,14 +15,23 @@ namespace WPFCoreMVVM.ViewModels
     {
         private readonly IUserDialog _UserDialog;
         private readonly IDataService _DataService;
-        private readonly IEFUnitOfWork _UOW;
+        private readonly ILogger<MainWindowViewModel> _logger;
+        public MainWindowViewModel(IUserDialog UserDialog,
+            IDataService DataService,
+            ILogger<MainWindowViewModel> logger)
+        {
+            _UserDialog = UserDialog;
+            _DataService = DataService;
+            _logger = logger;
+        }
 
-        #region Title : string - Заголовок окна
 
-        /// <summary>Заголовок окна</summary>
+        #region Title : string - Заголовок віна
+        
+        /// <summary>Заголовок вікна</summary>
         private string _Title = "Главное окно";
 
-        /// <summary>Заголовок окна</summary>
+        /// <summary>Заголовок вікна</summary>
         public string Title { get => _Title; set => Set(ref _Title, value); }
 
         #endregion
@@ -34,41 +47,58 @@ namespace WPFCoreMVVM.ViewModels
         #endregion
 
 
-        #region CurrentModel : ViewModel - Текущая дочерняя модель-представления
+        #region CurrentModel : ViewModel - Поточна дочірня модель представлення
 
-        /// <summary>Текущая дочерняя модель-представления</summary>
+        /// <summary>Поточна дочірня модель - представлення</summary>
         private ViewModel _CurrentModel;
 
-        /// <summary>Текущая дочерняя модель-представления</summary>
+        /// <summary>Поточна дочірня модель - представлення</summary>
         public ViewModel CurrentModel { get => _CurrentModel; private set => Set(ref _CurrentModel, value); }
 
         #endregion
 
-        #region Command ShowBuyersViewCommand - Отобразить представление покупателей
+        #region Command ShowEventsViewCommand - Відобразити представлення івентів
 
-        /// <summary>Отобразить представление покупателей</summary>
+        /// <summary>Відобразити предсталвення івентів</summary>
         private ICommand _ShowEventsViewCommand;
 
-        /// <summary>Отобразить представление покупателей</summary>
+        /// <summary>Відобразити предсталвення івентів</summary>
         public ICommand ShowEventsViewCommand => _ShowEventsViewCommand
             ??= new LambdaCommand(OnShowEventsViewCommandExecuted, CanShowEventsViewCommandExecute);
 
-        /// <summary>Проверка возможности выполнения - Отобразить представление покупателей</summary>
+        /// <summary>Перевірка можливості виконання - Відобразити предсталвення івентів</summary>
         private bool CanShowEventsViewCommandExecute() => true;
 
-        /// <summary>Логика выполнения - Отобразить представление покупателей</summary>
+        /// <summary>Логіка виконання - Відобразити предсталвення івентів</summary>
         private void OnShowEventsViewCommandExecuted()
         {
-            CurrentModel = new EventsViewModel(/*_UOW*/);
+            _logger.LogInformation(DateTime.UtcNow + "=>" + "Отримуємо USER CONTROL OF EVENTS");
+            this.CurrentModel = new EventsViewModel();
         }
 
         #endregion
 
-        public MainWindowViewModel(IUserDialog UserDialog, IDataService DataService/*, IEFUnitOfWork uow*/)
+        #region Command ShowProfileViewCommand - Відобразити представлення профайлу
+
+        /// <summary>Відобразити представлення профайлу</summary>
+        private ICommand _ShowProfileViewCommand;
+
+        /// <summary>Відобразити представлення профайлу</summary>
+        public ICommand ShowProfileViewCommand => _ShowProfileViewCommand
+            ??= new LambdaCommand(OnShowProfileViewCommandExecuted, CanShowProfileViewCommandExecute);
+
+        /// <summary>Перевірка можливості виконання - Відобразити представлення профайлу</summary>
+        private bool CanShowProfileViewCommandExecute() => true;
+
+        /// <summary>Логіка виконання - Відобразити представлення профайлу</summary>
+        private void OnShowProfileViewCommandExecuted()
         {
-            _UserDialog = UserDialog;
-            _DataService = DataService;
-            //_UOW = uow;
+            _logger.LogInformation(DateTime.UtcNow + "=>" + "Отримуємо USER CONTROL OF PROFILE");
+            CurrentModel = new ProfileViewModel();
         }
+
+        #endregion
+
+
     }
 }

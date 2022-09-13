@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyEventsAdoNetDB", "MyEvent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyEventsEntityFrameworkDb", "MyEventsEntityFrameworkDb\MyEventsEntityFrameworkDb.csproj", "{18D64DFE-F81C-4785-B289-8FF7E4E76A28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCoreMVVM", "WPFCoreMVVM\WPFCoreMVVM.csproj", "{ABD48AE0-7EA7-4729-A6D9-DBCF81D4EA45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyEventsWpfMVVM", "WPFCoreMVVM\MyEventsWpfMVVM.csproj", "{ABD48AE0-7EA7-4729-A6D9-DBCF81D4EA45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
