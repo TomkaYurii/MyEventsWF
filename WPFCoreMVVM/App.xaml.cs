@@ -23,6 +23,9 @@ namespace WPFCoreMVVM
 
         public static Window FocusedWindow => Current.Windows.Cast<Window>().FirstOrDefault(w => w.IsFocused);
 
+        public static Window CurrentWindow => FocusedWindow ?? ActivedWindow;
+        public static bool IsDesignTime { get; private set; } = true;
+
         private static IHost __Host;
 
         public static IHost Host => __Host ??= Microsoft.Extensions.Hosting.Host
@@ -44,13 +47,13 @@ namespace WPFCoreMVVM
            .ConfigureServices((hostBuilderContext, serviceCollection) =>
            {
                // Connection/Transaction for ADO.NET/DAPPER database
-               serviceCollection.AddScoped((s) => new SqlConnection(hostBuilderContext.Configuration.GetConnectionString("MSSQLConnection")));
-               serviceCollection.AddScoped<IDbTransaction>(s =>
-               {
-                   SqlConnection conn = s.GetRequiredService<SqlConnection>();
-                   conn.Open();
-                   return conn.BeginTransaction();
-               });
+               //serviceCollection.AddScoped((s) => new SqlConnection(hostBuilderContext.Configuration.GetConnectionString("MSSQLConnection")));
+               //serviceCollection.AddScoped<IDbTransaction>(s =>
+               //{
+               //    SqlConnection conn = s.GetRequiredService<SqlConnection>();
+               //    conn.Open();
+               //    return conn.BeginTransaction();
+               //});
                // Connection for EF database + DbContext
                serviceCollection.AddDbContext<MyEventsDbContext>(options =>
                {
@@ -58,13 +61,13 @@ namespace WPFCoreMVVM
                    options.UseSqlServer(connectionString);
                });
                // Dependendency Injection for Repositories/UOW from ADO.NET DAL
-               serviceCollection.AddScoped<IEventRepository, EventRepository>();
-               serviceCollection.AddScoped<ICategoryRepository, CategoryRepository>();
-               serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
-               serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
-               serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
-               serviceCollection.AddScoped<IImageRepository, ImageRepository>();
-               serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
+               //serviceCollection.AddScoped<IEventRepository, EventRepository>();
+               //serviceCollection.AddScoped<ICategoryRepository, CategoryRepository>();
+               //serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
+               //serviceCollection.AddScoped<IGalleryRepository, GalleryRepository>();
+               //serviceCollection.AddScoped<IMessageRepository, MessageRepository>();
+               //serviceCollection.AddScoped<IImageRepository, ImageRepository>();
+               //serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
                // Dependendency Injection for Repositories/UOW from EF DAL
                serviceCollection.AddScoped<IEFEventRepository, EFEventRepository>();
                serviceCollection.AddScoped<IEFCategoryRepository, EFCategoryRepository>();

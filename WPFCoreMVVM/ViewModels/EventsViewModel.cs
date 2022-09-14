@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,7 +12,6 @@ using WPFCoreMVVM.Infrastructure.Commands;
 using WPFCoreMVVM.Services;
 using WPFCoreMVVM.Services.Interfaces;
 using WPFCoreMVVM.ViewModels.Base;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace WPFCoreMVVM.ViewModels
 {
@@ -81,6 +78,8 @@ namespace WPFCoreMVVM.ViewModels
 
         #endregion
 
+
+
         private CollectionViewSource _eventsViewSource;
 
         public ICollectionView EventsView => _eventsViewSource?.View;
@@ -139,6 +138,20 @@ namespace WPFCoreMVVM.ViewModels
                 var services = scopeServices.ServiceProvider;
                 var logger = services.GetService<ILogger<EventsViewModel>>();
                 logger.LogInformation(DateTime.UtcNow + "=>" + "Здійснюємо додавання нового івенту з нової форми");
+
+                var event_to_add = new Event();
+                event_to_add.Id = 1000;
+
+                var _UserDialog = services.GetService<IUserDialog>();
+
+                if (!_UserDialog.Edit(event_to_add))
+                    return;
+
+                var uow = services.GetService<IEFUnitOfWork>();
+                uow.EFEventRepository.AddAsync(event_to_add);
+                uow.SaveChangesAsync();
+
+                SelectedEvent = event_to_add;
             }
         }
         #endregion
@@ -163,9 +176,23 @@ namespace WPFCoreMVVM.ViewModels
                 var services = scopeServices.ServiceProvider;
                 var logger = services.GetService<ILogger<EventsViewModel>>();
                 logger.LogInformation(DateTime.UtcNow + "=>" + "Здійснюємо видалення вказаного івенту");
+
+                var event_to_remove = this.SelectedEvent;
+
+                var _UserDialog = services.GetService<IUserDialog>();
+
+                if (!_UserDialog.ConfirmWarning($"Вы хотите удалить книгу {event_to_remove.Name}?", "Удаление книги"))
+                    return;
+
+                var uow = services.GetService<IEFUnitOfWork>();
+                uow.EFEventRepository.DeleteAsync(event_to_remove);
+                uow.SaveChangesAsync();
+
+                Events.Remove(event_to_remove);
+                if (ReferenceEquals(SelectedEvent, event_to_remove))
+                    SelectedEvent = null;
             }
         }
-
         #endregion
     }
 }
