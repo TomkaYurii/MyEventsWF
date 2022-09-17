@@ -5,5 +5,5 @@ namespace MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 
 public interface IEFEventRepository : IEFGenericRepository<Event>
 {
-    Task<PagedList<Event>> GetPaginationEvents(ShowEventParameters showEventParameters);
+    Task<PagedList<Event>> GetPaginatedEventsAsync(ShowEventParameters showEventParameters);
 }

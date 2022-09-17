@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyEventsAdoNetDB.Entities;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities.Pagination;
+using MyEventsWebApi.Extensions;
 
 namespace MyEventsWebApi.Controllers
 {
@@ -14,7 +14,7 @@ namespace MyEventsWebApi.Controllers
         private readonly ILogger<EventsController> _logger;
         private IEFUnitOfWork _EFuow;
         private IUnitOfWork _ADOuow;
-        public EventsController(ILogger<EventsController> logger, 
+        public EventsController(ILogger<EventsController> logger,
             IEFUnitOfWork unitOfWork,
             IUnitOfWork ado_unitofwork)
         {
@@ -25,12 +25,13 @@ namespace MyEventsWebApi.Controllers
 
         //GET: api/events
         [HttpGet]
-        public async Task<ActionResult<PagedList<Event>>> GetAllEventsAsync([FromQuery] ShowEventParameters showEventParameters)
+        public async Task<ActionResult<PagedList<Event>>> GetPaginatedEventsAsync([FromQuery] ShowEventParameters showEventParameters)
         {
             try
             {
-                var results = _EFuow.EFEventRepository.GetPaginationEvents(showEventParameters);
-                
+                var results = await _EFuow.EFEventRepository.GetPaginatedEventsAsync(showEventParameters);
+                Response.Headers.Add("X-Pagination", results.SerializeMetadata());
+
                 _logger.LogInformation($"Отримали пропагіновані елементи з БД");
                 return Ok(results);
             }
@@ -49,7 +50,7 @@ namespace MyEventsWebApi.Controllers
             {
                 var result = await _ADOuow._eventRepository.GetAsync(id);
                 _ADOuow.Commit();
-                if (result  == null)
+                if (result == null)
                 {
                     _logger.LogInformation($"Івент із Id: {id}, не був знайдейний у базі даних");
                     return NotFound();
@@ -112,14 +113,14 @@ namespace MyEventsWebApi.Controllers
                     return BadRequest("Обєкт івенту є некоректним");
                 }
 
-                var event_entity =  await _ADOuow._eventRepository.GetAsync(id);
-                if(event_entity == null)
+                var event_entity = await _ADOuow._eventRepository.GetAsync(id);
+                if (event_entity == null)
                 {
                     _logger.LogInformation($"Івент із Id: {id}, не був знайдейний у базі даних");
                     return NotFound();
                 }
 
-                 await _ADOuow._eventRepository.ReplaceAsync(evnt);
+                await _ADOuow._eventRepository.ReplaceAsync(evnt);
                 _ADOuow.Commit();
                 return StatusCode(StatusCodes.Status204NoContent);
             }
