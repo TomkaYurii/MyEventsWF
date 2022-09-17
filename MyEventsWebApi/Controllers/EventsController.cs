@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyEventsAdoNetDB.Entities;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
+using MyEventsEntityFrameworkDb.Entities.Pagination;
 
 namespace MyEventsWebApi.Controllers
 {
@@ -24,18 +25,18 @@ namespace MyEventsWebApi.Controllers
 
         //GET: api/events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetAllEventsAsync()
+        public async Task<ActionResult<PagedList<Event>>> GetAllEventsAsync([FromQuery] ShowEventParameters showEventParameters)
         {
             try
             {
-                var results = await _ADOuow._eventRepository.GetAllAsync();
-                _ADOuow.Commit();
-                _logger.LogInformation($"Отримали всы івенти з бази даних!");
+                var results = _EFuow.EFEventRepository.GetPaginationEvents(showEventParameters);
+                
+                _logger.LogInformation($"Отримали пропагіновані елементи з БД");
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Транзакція сфейлилась! Щось пішло не так у методі GetAllEventsAsync() - {ex.Message}");
+                _logger.LogError($"Запит не відпрацював, щось пішло не так! - {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
