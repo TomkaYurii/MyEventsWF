@@ -24,7 +24,7 @@ namespace MyEventsWebApi.Controllers
 
         //GET: api/events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetAllEventsAsync()
+        public async Task<ActionResult<IEnumerable<Event>>> GetAllEventsAsync([FromQuery] EventsParametrs eventsParametrs)
         {
             try
             {

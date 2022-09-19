@@ -1,8 +1,8 @@
-﻿namespace Entities.proModels
+﻿namespace MyEventsEntityFrameworkDb.Entities.pagination
 {
 	public abstract class QueryStringParameters
 	{
-		const int maxPageSize = 20;
+		const int maxPageSize = 50;
 		public int PageNumber { get; set; } = 1;
 
 		private int _pageSize = 10;

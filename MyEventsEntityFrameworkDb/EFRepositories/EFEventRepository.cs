@@ -2,6 +2,7 @@
 using MyEventsEntityFrameworkDb.DbContexts;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities;
+using MyEventsEntityFrameworkDb.Entities.pagination;
 using MyEventsEntityFrameworkDb.Exceptions;
 
 namespace MyEventsEntityFrameworkDb.EFRepositories;
@@ -15,10 +16,40 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
 
     public override async Task<Event> GetCompleteEntityAsync(int id)
     {
-        var my_event =  await table.Include(ev => ev.User)
+        var my_event = await table.Include(ev => ev.User)
                                  .Include(ev => ev.Gallery)
                                      .ThenInclude(gal => gal.Images)
                                  .SingleOrDefaultAsync(ev => ev.Id == id);
         return my_event ?? throw new EntityNotFoundException("NOT FOUND");
+    }
+
+    public async Task<PagedList<Event>> GetPaginatedEventsAsync(EventsParametrs eventsParametrs)
+    {
+        // коли просто забираємо одну таблицю івентів не підтягуючи звязані дані для цієї таблиці
+        var source_one_table = table;
+
+        // коли забираємо зв'язані дані з декількох таблиць
+        // EagerLoading не відпрацює через циклічність звязків
+        var source = table.Join(databaseContext.Users,
+            e => e.UserId,
+            u => u.Id,
+            (e, u) => new Event
+            {
+                Id = e.Id,
+                Name = e.Name,
+                TimeOfEvent = e.TimeOfEvent,
+                DateOfEvent = e.DateOfEvent,
+                Address = e.Address,
+                User = u
+            });
+
+        // прокидуємо отримані результати на пагінування
+        var paginated_event_data = await PagedList<Event>.ToPagedListAsync(
+                source,
+                eventsParametrs.PageNumber,
+                eventsParametrs.PageSize);
+
+        // повертаємо пропагіновані дані
+        return paginated_event_data;
     }
 }
