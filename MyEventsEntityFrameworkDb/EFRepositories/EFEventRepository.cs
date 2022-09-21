@@ -4,6 +4,7 @@ using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities;
 using MyEventsEntityFrameworkDb.Entities.Pagination;
 using MyEventsEntityFrameworkDb.Exceptions;
+using System.Xml.XPath;
 
 namespace MyEventsEntityFrameworkDb.EFRepositories;
 
@@ -26,7 +27,7 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
     public async Task<PagedList<Event>> GetPaginatedEventsAsync(ShowEventParameters showEventParameters)
     {
         // коли просто забираємо одну таблицю івентів не підтягуючи звязані дані для цієї таблиці
-        var source_one_table = table;
+        //var source = table.Include(e=>e.User);
 
         // коли забираємо зв'язані дані з декількох таблиць
         // EagerLoading не відпрацює через циклічність звязків
@@ -51,5 +52,11 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
 
         // повертаємо пропагіновані дані
         return paginated_event_data;
+    }
+
+    public async Task<IEnumerable<Event>> GetEventsByName(string name)
+    {
+        var result = await this.databaseContext.Events.Where(e => e.Name == name).ToListAsync();
+        return result;
     }
 }

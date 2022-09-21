@@ -155,5 +155,31 @@ namespace MyEventsWebApi.Controllers
             }
         }
 
+
+        //GET: api/events/name
+        [HttpGet("{name:alpha}")]
+        public async Task<ActionResult<Event>> GetEventsByName(string name)
+        {
+            try
+            {
+                var result = await _EFuow.EFEventRepository.GetEventsByName(name);
+                if (result == null)
+                {
+                    _logger.LogInformation($"Івент із іменем: {name}, не був знайдейний у базі даних");
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogInformation($"Отримали івент з бази даних!");
+                    return Ok(result);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Запис до БД сфейлився! Щось пішло не так  - {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
+            }
+        }
     }
 }
