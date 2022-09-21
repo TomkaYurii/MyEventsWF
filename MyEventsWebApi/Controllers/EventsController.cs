@@ -30,7 +30,7 @@ namespace MyEventsWebApi.Controllers
             {
                 var results = await _ADOuow._eventRepository.GetAllAsync();
                 _ADOuow.Commit();
-                _logger.LogInformation($"Отримали всы івенти з бази даних!");
+                _logger.LogInformation($"Отримали всі івенти з бази даних!");
                 return Ok(results);
             }
             catch (Exception ex)
