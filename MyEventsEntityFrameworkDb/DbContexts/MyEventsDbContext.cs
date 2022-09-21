@@ -29,7 +29,7 @@ namespace MyEventsEntityFrameworkDb.DbContexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MyEventsDb;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=tcp:meeventsserver.database.windows.net,1433;Initial Catalog=MyEventsDb;Persist Security Info=False;User ID=MyEventsAdminDb;Password=MyEventsAdminPassword2022;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;");
             }
         }
 

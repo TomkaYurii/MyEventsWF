@@ -1,4 +1,4 @@
-﻿namespace Entities.HelperModels
+﻿namespace Entities.Pagination
 {
 	public abstract class QueryStringParameters
 	{

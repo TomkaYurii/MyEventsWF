@@ -11,8 +11,8 @@ using System.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-//builder.Configuration.AddJsonFile("appsetings.json", optional: false, reloadOnChange: true);
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 //builder.Configuration.AddJsonFile($"appsetings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: false, reloadOnChange: true);
 
 

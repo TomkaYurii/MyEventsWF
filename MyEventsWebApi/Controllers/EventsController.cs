@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyEventsAdoNetDB.Entities;
 using MyEventsAdoNetDB.Repositories.Interfaces;
 using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
+using MyEventsEntityFrameworkDb.Entities.Pagination;
+using MyEventsWebApi.Extensions;
 
 namespace MyEventsWebApi.Controllers
 {
@@ -13,7 +15,7 @@ namespace MyEventsWebApi.Controllers
         private readonly ILogger<EventsController> _logger;
         private IEFUnitOfWork _EFuow;
         private IUnitOfWork _ADOuow;
-        public EventsController(ILogger<EventsController> logger, 
+        public EventsController(ILogger<EventsController> logger,
             IEFUnitOfWork unitOfWork,
             IUnitOfWork ado_unitofwork)
         {
@@ -24,22 +26,22 @@ namespace MyEventsWebApi.Controllers
 
         //GET: api/events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetAllEventsAsync()
+        public async Task<ActionResult<PagedList<Event>>> GetPaginatedEventsAsync([FromQuery] ShowEventParameters showEventParameters)
         {
             try
-            {
-                var results = await _ADOuow._eventRepository.GetAllAsync();
-                _ADOuow.Commit();
-                _logger.LogInformation($"Отримали всы івенти з бази даних!");
+            { 
+                var results = await _EFuow.EFEventRepository.GetPaginatedEventsAsync(showEventParameters);
+                Response.Headers.Add("X-Pagination", results.SerializeMetadata());
+
+                _logger.LogInformation($"Отримали пропагіновані елементи з БД");
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Транзакція сфейлилась! Щось пішло не так у методі GetAllEventsAsync() - {ex.Message}");
+                _logger.LogError($"Запит не відпрацював, щось пішло не так! - {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
-
         //GET: api/events/Id
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> GetByIdAsync(int id)
@@ -48,7 +50,7 @@ namespace MyEventsWebApi.Controllers
             {
                 var result = await _ADOuow._eventRepository.GetAsync(id);
                 _ADOuow.Commit();
-                if (result  == null)
+                if (result == null)
                 {
                     _logger.LogInformation($"Івент із Id: {id}, не був знайдейний у базі даних");
                     return NotFound();
@@ -58,7 +60,6 @@ namespace MyEventsWebApi.Controllers
                     _logger.LogInformation($"Отримали івент з бази даних!");
                     return Ok(result);
                 }
-
             }
             catch (Exception ex)
             {
@@ -66,7 +67,6 @@ namespace MyEventsWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
-
         //POST: api/events
         [HttpPost]
         public async Task<ActionResult> PostEventAsync([FromBody] Event evnt)
@@ -93,7 +93,6 @@ namespace MyEventsWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
-
         //POST: api/events/id
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateEventAsync(int id, [FromBody] Event evnt)
@@ -110,15 +109,13 @@ namespace MyEventsWebApi.Controllers
                     _logger.LogInformation($"Ми отримали некоректний json зі сторони клієнта");
                     return BadRequest("Обєкт івенту є некоректним");
                 }
-
-                var event_entity =  await _ADOuow._eventRepository.GetAsync(id);
-                if(event_entity == null)
+                var event_entity = await _ADOuow._eventRepository.GetAsync(id);
+                if (event_entity == null)
                 {
                     _logger.LogInformation($"Івент із Id: {id}, не був знайдейний у базі даних");
                     return NotFound();
                 }
-
-                 await _ADOuow._eventRepository.ReplaceAsync(evnt);
+                await _ADOuow._eventRepository.ReplaceAsync(evnt);
                 _ADOuow.Commit();
                 return StatusCode(StatusCodes.Status204NoContent);
             }
@@ -128,7 +125,6 @@ namespace MyEventsWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
-
         //GET: api/events/Id
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteByIdAsync(int id)
@@ -141,7 +137,6 @@ namespace MyEventsWebApi.Controllers
                     _logger.LogInformation($"Івент із Id: {id}, не був знайдейний у базі даних");
                     return NotFound();
                 }
-
                 await _ADOuow._eventRepository.DeleteAsync(id);
                 _ADOuow.Commit();
                 return NoContent();
@@ -152,6 +147,5 @@ namespace MyEventsWebApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "вот так вот!");
             }
         }
-
     }
 }

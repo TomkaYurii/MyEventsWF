@@ -55,7 +55,7 @@ namespace WPFCoreMVVM
                //    return conn.BeginTransaction();
                //});
                // Connection for EF database + DbContext
-               serviceCollection.AddDbContext<MyEventsDbContext>(options =>
+               serviceCollection.AddDbContext<MyMessageDbContext>(options =>
                {
                    string connectionString = hostBuilderContext.Configuration.GetConnectionString("MSSQLConnection");
                    options.UseSqlServer(connectionString);
