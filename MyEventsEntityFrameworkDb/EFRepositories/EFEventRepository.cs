@@ -4,6 +4,7 @@ using MyEventsEntityFrameworkDb.EFRepositories.Contracts;
 using MyEventsEntityFrameworkDb.Entities;
 using MyEventsEntityFrameworkDb.Entities.Pagination;
 using MyEventsEntityFrameworkDb.Exceptions;
+using System.Xml.Linq;
 using System.Xml.XPath;
 
 namespace MyEventsEntityFrameworkDb.EFRepositories;
@@ -43,7 +44,7 @@ public class EFEventRepository : EFGenericRepository<Event>, IEFEventRepository
                 Address = e.Address,
                 User = u
             });
-
+        source = source.Where(ev => ev.Name.Contains(showEventParameters.Name));
         // прокидуємо отримані результати на пагінування
         var paginated_event_data = await PagedList<Event>.ToPagedListAsync(
                 source,
