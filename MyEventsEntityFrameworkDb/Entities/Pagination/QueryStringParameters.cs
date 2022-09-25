@@ -17,5 +17,8 @@
 				_pageSize = (value > maxPageSize) ? maxPageSize : value;
 			}
 		}
-	}
+
+		// поле для сортування
+        public string? OrderBy { get; set; }
+    }
 }
