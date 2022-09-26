@@ -15,7 +15,7 @@ namespace MyEventBlazorApp.Services
 
         public async Task<IEnumerable<Event>> GetEvents()
         {
-            return await _httpClient.GetFromJsonAsync<Event[]>("api/events");
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Event>>("api/events");
         }
     }
 }

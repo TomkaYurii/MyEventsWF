@@ -8,12 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-
 
 string apiUrl = builder.Configuration["ApiUrl"];
 
 builder.Services.AddHttpClient<IEventsService, EventsService>(httpClient =>
+{
+    httpClient.BaseAddress = new Uri($"{apiUrl}");
+});
+
+builder.Services.AddHttpClient<IUserProfileService, UserProfileService>(httpClient =>
 {
     httpClient.BaseAddress = new Uri($"{apiUrl}");
 });
