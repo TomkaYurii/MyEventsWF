@@ -15,7 +15,7 @@ string apiUrl = builder.Configuration["ApiUrl"];
 
 builder.Services.AddHttpClient<IEventsService, EventsService>(httpClient =>
 {
-    httpClient.BaseAddress = new Uri($"{apiUrl}/api/events/");
+    httpClient.BaseAddress = new Uri($"{apiUrl}");
 });
 
 

@@ -1,7 +1,36 @@
 ﻿@page "/events"
+@using MyEventBlazorApp.Services
+@using MyEventsAdoNetDB.Entities
 @inject IEventsService EventsService
 
 <p class="heading">CSS Gallery</p>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in events)
+            {
+                <tr>
+                    <td>@contact.Id</td>
+                    <td>@contact.Name</td>
+                    <td>@contact.User_id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <div class="gallery-image">
     <div class="img-box">
@@ -61,5 +90,11 @@
 </div>
 
 @code {
+    List<Event>? events;
 
+    protected override async Task OnInitializedAsync()
+    {
+        var ev = await EventsService.GetEvents();
+        events = ev.ToList();
+    }
 }

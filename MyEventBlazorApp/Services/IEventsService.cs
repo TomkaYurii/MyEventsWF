@@ -1,7 +1,11 @@
-﻿namespace MyEventBlazorApp.Services
+﻿
+
+using MyEventsAdoNetDB.Entities;
+
+namespace MyEventBlazorApp.Services
 {
     public interface IEventsService
     {
-        Task<IEnumerable<string>> GetEvents();
+        Task<IEnumerable<Event>> GetEvents();
     }
 }
