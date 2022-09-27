@@ -42,6 +42,11 @@ public class EFMessageRepository : EFGenericRepository<Message>, IEFMessageRepos
                     Event = e
                 });
 
+        if (showMessageParameters.UserId != null)
+            source = source.Where(m => m.UserId == showMessageParameters.UserId);
+        if (showMessageParameters.EventId != null)
+            source = source.Where(m => m.EventId == showMessageParameters.EventId);
+
         var paginated_event_data = await PagedList<Message>.ToPagedListAsync(
                 source,
                 showMessageParameters.PageNumber,
